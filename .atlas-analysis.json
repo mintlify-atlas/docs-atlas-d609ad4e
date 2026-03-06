@@ -1,0 +1,78 @@
+{
+  "projectType": "frontend",
+  "projectName": "Cursor UI Clone",
+  "projectDescription": "A pixel-perfect clone of the Cursor.com homepage built with vanilla HTML and CSS",
+  "theme": "palm",
+  "primaryColor": "#848481",
+  "lightColor": "#191811",
+  "darkColor": "#eaeaea",
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get Started",
+        "pages": [
+          "introduction",
+          "quickstart",
+          "preview"
+        ]
+      },
+      {
+        "group": "Structure",
+        "pages": [
+          "structure/html-architecture",
+          "structure/css-system",
+          "structure/design-tokens"
+        ]
+      },
+      {
+        "group": "Components",
+        "pages": [
+          "components/navigation",
+          "components/hero",
+          "components/cards",
+          "components/testimonials",
+          "components/features",
+          "components/changelog",
+          "components/footer"
+        ]
+      },
+      {
+        "group": "Customization",
+        "pages": [
+          "customization/colors",
+          "customization/fonts",
+          "customization/styling"
+        ]
+      },
+      {
+        "group": "Development",
+        "pages": [
+          "development/setup",
+          "development/build",
+          "development/deployment"
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Vanilla HTML/CSS implementation with no framework dependencies",
+    "Pixel-perfect replication of Cursor.com homepage design",
+    "Custom design system with CSS variables for theming",
+    "Responsive layout with flexbox and grid",
+    "Custom Cursor Gothic font integration",
+    "Dark theme with system color preferences",
+    "Vite-powered development environment",
+    "Modular component structure"
+  ],
+  "publicApiSurface": [
+    "index.html - Main HTML structure",
+    "styles.css - Complete stylesheet with design system",
+    "CSS Variables: --color-theme-bg, --color-theme-fg, --color-theme-card-hex",
+    "Component Classes: .nav, .hero, .card, .testimonials, .features, .changelog",
+    "Layout Utilities: .flex, .justify-center, .align-center, .grid",
+    "public/fonts/Gothic.woff2 - Custom Cursor Gothic font",
+    "public/images/* - Image assets",
+    "Vite dev server: bun run dev",
+    "Vite build: bun run build"
+  ]
+}
