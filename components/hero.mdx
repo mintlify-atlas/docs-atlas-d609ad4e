@@ -1,0 +1,194 @@
+---
+title: Hero Section
+description: The main landing section featuring a headline, CTA button, and hero image
+---
+
+## Overview
+
+The hero section is the first content users see after the navigation. It features a bold headline, a prominent download button, and a large hero image showcasing the product.
+
+## Visual Description
+
+This section displays:
+- A large, centered headline split across two lines
+- A white download button with an icon
+- A full-width product screenshot below
+
+The design uses generous spacing to create visual impact and draw attention to the main call-to-action.
+
+## HTML Structure
+
+```html
+<section class="hero p-20">
+  <h1>Built to make you extraordinarily productive, <br>
+    Cursor is the best way to code with AI.</h1>
+  <button class="hero__cta">Download For Windows
+    <img src="download (2).png" alt="Download icon">
+  </button>
+  <img class="hero__img" src="images/image1.png" alt="">
+</section>
+```
+
+## CSS Styling
+
+### Section Container
+
+```css
+.hero {
+  margin: 115px 90px;
+}
+
+.p-20 {
+  padding: 20px;
+}
+```
+
+<Note>
+The large top margin (115px) creates breathing room between the sticky header and hero content.
+</Note>
+
+### Headline Typography
+
+```css
+.hero h1 {
+  font-size: 26px;
+  margin-bottom: 22px;
+  font-weight: 400;
+}
+```
+
+The headline uses:
+- Moderate font size (26px) for readability
+- Light font weight (400) for an elegant appearance
+- Manual line break (`<br>`) for controlled text flow
+
+### CTA Button
+
+```css
+.hero__cta {
+  font-size: 16px;
+  border: none;
+  border-radius: 30px;
+  padding: 13px 21px;
+  display: flex;
+  gap: 2px;
+  cursor: pointer;
+}
+
+.hero__cta img {
+  width: 16px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.hero__cta:hover {
+  background: var(--color-theme-fg-02);
+}
+```
+
+<Tip>
+The button uses `display: flex` to align the text and icon horizontally with a 2px gap.
+</Tip>
+
+### Hero Image
+
+```css
+.hero__img {
+  width: 100%;
+  margin-top: 62px;
+  margin-left: -10px;
+}
+```
+
+Key properties:
+- Full width (100%) to span the container
+- Large top margin (62px) for separation from the CTA
+- Slight negative left margin (-10px) for visual alignment
+
+## Complete Implementation
+
+```html
+<section class="hero p-20">
+  <h1>Built to make you extraordinarily productive, <br>
+    Cursor is the best way to code with AI.</h1>
+  <button class="hero__cta">Download For Windows
+    <img src="download (2).png" alt="Download icon">
+  </button>
+  <img class="hero__img" src="images/image1.png" alt="">
+</section>
+```
+
+```css
+.hero {
+  margin: 115px 90px;
+}
+
+.hero h1 {
+  font-size: 26px;
+  margin-bottom: 22px;
+  font-weight: 400;
+}
+
+.hero__cta {
+  font-size: 16px;
+  border: none;
+  border-radius: 30px;
+  padding: 13px 21px;
+  display: flex;
+  gap: 2px;
+  cursor: pointer;
+}
+
+.hero__cta:hover {
+  background: var(--color-theme-fg-02);
+}
+
+.hero__img {
+  width: 100%;
+  margin-top: 62px;
+  margin-left: -10px;
+}
+```
+
+## Design Principles
+
+<CardGroup cols={2}>
+  <Card title="Whitespace" icon="arrows-left-right">
+    Generous margins create focus and visual hierarchy
+  </Card>
+  <Card title="Clear CTA" icon="hand-pointer">
+    Prominent download button drives user action
+  </Card>
+  <Card title="Visual Proof" icon="image">
+    Large product image provides immediate context
+  </Card>
+  <Card title="Responsive Typography" icon="text-size">
+    Light font weight maintains elegance at scale
+  </Card>
+</CardGroup>
+
+## Customization Tips
+
+### Changing the Platform
+
+The button text "Download For Windows" can be dynamically updated based on the user's operating system:
+
+```html
+<button class="hero__cta" id="downloadBtn">
+  <span id="platform">Download For Windows</span>
+  <img src="download (2).png" alt="Download icon">
+</button>
+```
+
+### Adjusting Spacing
+
+<Accordion title="Modify vertical rhythm">
+Adjust these margin values to change the spacing:
+- `.hero` margin: Overall section positioning
+- `.hero h1` margin-bottom: Headline to CTA spacing
+- `.hero__img` margin-top: CTA to image spacing
+</Accordion>
+
+## Reusable CTA Button
+
+The `.hero__cta` class is also used in other sections (e.g., "Join us" section at line 316), making it a reusable component throughout the page.

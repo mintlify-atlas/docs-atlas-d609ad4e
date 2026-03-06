@@ -1,0 +1,399 @@
+---
+title: Font Customization
+description: Customize typography with Cursor Gothic and Inter fonts
+---
+
+The Cursor UI Clone uses a distinctive combination of the custom "Gothic" font and Google's Inter font family. Understanding the font system allows you to customize typography to match your brand.
+
+## Font Stack Overview
+
+The project uses two primary fonts:
+
+1. **Gothic** - A custom font that gives Cursor its distinctive character
+2. **Inter** - A modern, highly readable sans-serif from Google Fonts
+
+### Default Font Declaration
+
+```css
+html {
+    scroll-behavior: smooth;
+    font-family: 'Gothic', 'Inter', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+```
+
+The font stack prioritizes Gothic first, falls back to Inter, and finally to system sans-serif fonts.
+
+## Gothic Font Configuration
+
+### Font Face Declaration
+
+The Gothic font is loaded via `@font-face` from a local WOFF2 file:
+
+```css
+@font-face {
+    font-family: "Gothic";
+    src: url("./fonts/Gothic.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+```
+
+**Key properties:**
+- **File format**: WOFF2 (Web Open Font Format 2.0) - highly compressed
+- **Font display**: `swap` - shows fallback text immediately, then swaps to Gothic when loaded
+- **Weight**: Normal (400)
+- **Style**: Normal
+
+<Tip>
+The `font-display: swap` strategy ensures text remains visible during font loading, improving perceived performance.
+</Tip>
+
+### Gothic Font Location
+
+The Gothic font file is located at:
+```
+source/fonts/Gothic.woff2
+```
+
+## Inter Font Configuration
+
+Inter is loaded from Google Fonts CDN:
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+```
+
+**Available weights:**
+- 300 (Light)
+- 400 (Regular)
+- 500 (Medium)
+- 600 (Semi-Bold)
+- 700 (Bold)
+
+<Note>
+Inter serves as the fallback font when Gothic doesn't load or for specific UI components that benefit from Inter's superior legibility at small sizes.
+</Note>
+
+## Customization Examples
+
+### Example 1: Replace Gothic with Another Custom Font
+
+To use your own custom font instead of Gothic:
+
+**1. Add your font file to the fonts directory:**
+```
+source/fonts/YourFont.woff2
+```
+
+**2. Update the `@font-face` declaration:**
+
+```css
+@font-face {
+    font-family: "YourFont";
+    src: url("./fonts/YourFont.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+```
+
+**3. Update the font stack:**
+
+```css
+html {
+    scroll-behavior: smooth;
+    font-family: 'YourFont', 'Inter', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+```
+
+### Example 2: Use Only Google Fonts
+
+Replace both Gothic and Inter with Google Fonts alternatives:
+
+**Before:**
+```css
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@font-face {
+    font-family: "Gothic";
+    src: url("./fonts/Gothic.woff2") format("woff2");
+    /* ... */
+}
+
+html {
+    font-family: 'Gothic', 'Inter', sans-serif;
+}
+```
+
+**After (Using Poppins and Roboto):**
+```css
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+
+html {
+    font-family: 'Poppins', 'Roboto', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+```
+
+### Example 3: System Font Stack
+
+For optimal performance, use system fonts:
+
+```css
+html {
+    scroll-behavior: smooth;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 
+                 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 
+                 'Helvetica Neue', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+```
+
+<Tip>
+System fonts load instantly (no network request), provide native OS appearance, and are highly optimized for screen rendering.
+</Tip>
+
+### Example 4: Add Multiple Font Weights
+
+Expand Gothic to include multiple weights:
+
+```css
+@font-face {
+    font-family: "Gothic";
+    src: url("./fonts/Gothic-Light.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Gothic";
+    src: url("./fonts/Gothic-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Gothic";
+    src: url("./fonts/Gothic-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+```
+
+## Font Usage Throughout The UI
+
+### Primary Font Stack
+
+Most elements inherit from the html declaration:
+
+```css
+html {
+    font-family: 'Gothic', 'Inter', sans-serif;  /* Line 34 */
+}
+```
+
+This applies to:
+- Navigation (`styles.css:84`)
+- Hero section (`styles.css:136`)
+- Cards (`styles.css:234`)
+- Testimonials (`styles.css:291`)
+- Features (`styles.css:326`)
+- Footer (`styles.css:590`)
+
+### Special Font Override
+
+The button list uses a system font stack for UI consistency:
+
+```css
+.button-list {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 
+                 Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 
+                 'Helvetica Neue', sans-serif;  /* Line 385 */
+}
+```
+
+<Note>
+This override ensures UI components like dropdown buttons match the user's operating system for a native feel.
+</Note>
+
+## Font Weight Usage
+
+The clone uses consistent, light font weights:
+
+| Element | Weight | Line |
+|---------|--------|------|
+| Navigation title | 400 | 74 |
+| Hero heading | 400 | 139 |
+| Card headings | lighter | 235 |
+| Features heading | 400 | 327 |
+| Download heading | 200 | 568 |
+| Trusted heading | 200 | 174 |
+
+### Adjusting Font Weights
+
+To make typography bolder throughout:
+
+```css
+/* Increase base weight */
+html {
+    font-family: 'Gothic', 'Inter', sans-serif;
+    font-weight: 500;  /* Changed from 400 */
+}
+
+/* Adjust headings */
+.hero h1 {
+    font-weight: 500;  /* Changed from 400 */
+}
+
+.download h4 {
+    font-weight: 400;  /* Changed from 200 */
+}
+```
+
+## Font Size Scale
+
+The design uses a thoughtful type scale:
+
+| Element | Size | Line |
+|---------|------|------|
+| Navigation links | 14px | 86 |
+| Navigation title | 16px | 73 |
+| Hero title | 26px | 137 |
+| Card headings | 22px | 234 |
+| Features heading | 1.625rem (26px) | 326 |
+| Testimonials heading | 2.25rem (36px) | 269 |
+| Download heading | 4.5rem (72px) | 567 |
+| Footer text | 0.875rem (14px) | 590 |
+
+### Customizing Font Sizes
+
+Create your own type scale:
+
+```css
+/* Small adjustments for readability */
+.nav__center a {
+    font-size: 15px;  /* Changed from 14px */
+}
+
+.hero h1 {
+    font-size: 32px;  /* Changed from 26px */
+}
+
+.download h4 {
+    font-size: 5rem;  /* Changed from 4.5rem */
+}
+```
+
+## Performance Optimization
+
+### 1. Subset Fonts
+
+If using custom fonts, create subsets with only needed characters:
+
+```bash
+# Using pyftsubset (fonttools)
+pyftsubset Gothic.woff2 \
+  --text-file=characters.txt \
+  --output-file=Gothic-subset.woff2
+```
+
+### 2. Preload Critical Fonts
+
+Add to your HTML `<head>`:
+
+```html
+<link rel="preload" 
+      href="./fonts/Gothic.woff2" 
+      as="font" 
+      type="font/woff2" 
+      crossorigin>
+```
+
+### 3. Self-Host Google Fonts
+
+For better performance and privacy, self-host Inter:
+
+**1. Download from [Google Fonts](https://fonts.google.com/specimen/Inter)**
+
+**2. Replace the import:**
+
+```css
+/* Remove */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Add */
+@font-face {
+    font-family: 'Inter';
+    src: url('./fonts/Inter-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./fonts/Inter-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-display: swap;
+}
+/* Add other weights as needed */
+```
+
+<Tip>
+Self-hosting eliminates external requests and gives you full control over caching and loading strategies.
+</Tip>
+
+## Troubleshooting
+
+### Font Not Loading
+
+**Check the file path:**
+```css
+/* Ensure path is correct relative to styles.css */
+src: url("./fonts/Gothic.woff2") format("woff2");
+```
+
+**Verify MIME type (server configuration):**
+```
+font/woff2 → .woff2
+font/woff → .woff
+```
+
+### Flash of Unstyled Text (FOUT)
+
+Use `font-display: swap` (already implemented):
+```css
+@font-face {
+    font-family: "Gothic";
+    font-display: swap;  /* Shows fallback immediately */
+}
+```
+
+### Font Looks Different Than Expected
+
+Ensure fallback fonts are in the correct order:
+```css
+/* Gothic loads first, then Inter, then system sans-serif */
+font-family: 'Gothic', 'Inter', sans-serif;
+```
+
+## Best Practices
+
+1. **Limit font weights** - Only load weights you actually use
+2. **Use WOFF2 format** - Best compression and browser support
+3. **Set font-display** - Control loading behavior
+4. **Maintain fallback stack** - Ensure readability during font loading
+5. **Test across devices** - Verify rendering on different screens and OS
+
+<Note>
+Font files are typically the largest resources on a page. Optimize carefully for best performance.
+</Note>

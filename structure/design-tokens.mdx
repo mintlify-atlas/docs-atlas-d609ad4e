@@ -1,0 +1,626 @@
+---
+title: 'Design Tokens'
+description: 'Complete reference for CSS custom properties and the design token system'
+---
+
+## Overview
+
+The Cursor UI Clone uses CSS custom properties (CSS variables) defined in the `:root` pseudo-class to create a centralized design token system. All color values are stored as reusable tokens, enabling consistent theming across the application.
+
+## Token Architecture
+
+```css styles.css
+:root {
+    --color-theme-bg: #14120b;
+    --color-theme-fg: #edecec;
+    --color-theme-fg-02: #d7d6d5;
+    --color-theme-card-hex: #1b1913;
+    --color-theme-card-rgb: 27 29 39;
+    --color-theme-card-01-hex: #1d1b15;
+    --color-theme-card-02-hex: #201e18;
+    --color-theme-card-03-hex: #26241e;
+    --color-theme-card-04-hex: #2b2923;
+    --color-theme-card-hover-hex: #201e18;
+    --color-soft: color-mix(in oklab, var(--color-theme-fg)60%, transparent);
+}
+```
+
+<Note>
+**Design System Approach:** All colors are centralized in CSS custom properties, making theme changes as simple as updating values in one location.
+</Note>
+
+## Color Tokens
+
+### Background Colors
+
+<Tabs>
+  <Tab title="Primary Background">
+
+#### `--color-theme-bg`
+
+**Value:** `#14120b`
+
+**Usage:** Main page background color
+
+```css
+body {
+    background-color: var(--color-theme-bg);
+}
+
+header {
+    background-color: var(--color-theme-bg);
+}
+
+.btn-primary {
+    background: var(--color-theme-bg);
+}
+```
+
+**Visual:**
+<div style={{background: '#14120b', padding: '20px', borderRadius: '4px', color: 'white'}}>
+  #14120b - Dark warm brown (primary background)
+</div>
+
+**Where it's used:** `<body>` element, sticky header, and primary button background.
+
+  </Tab>
+  <Tab title="Card Backgrounds">
+
+### Card Background System
+
+The design uses a layered card system with progressively lighter backgrounds to create depth:
+
+#### `--color-theme-card-hex`
+**Value:** `#1b1913`
+```css
+.trusted .grid div {
+    background-color: var(--color-theme-card-hex);
+}
+```
+<div style={{background: '#1b1913', padding: '20px', borderRadius: '4px', color: 'white'}}>
+  #1b1913 - Base card color
+</div>
+
+#### `--color-theme-card-01-hex`
+**Value:** `#1d1b15`
+```css
+.card {
+    background-color: var(--color-theme-card-01-hex);
+}
+```
+<div style={{background: '#1d1b15', padding: '20px', borderRadius: '4px', color: 'white'}}>
+  #1d1b15 - Card level 1
+</div>
+
+#### `--color-theme-card-02-hex`
+**Value:** `#201e18`
+```css
+.recent__item2--card {
+    background-color: var(--color-theme-card-02-hex);
+}
+```
+<div style={{background: '#201e18', padding: '20px', borderRadius: '4px', color: 'white'}}>
+  #201e18 - Card level 2
+</div>
+
+#### `--color-theme-card-03-hex`
+**Value:** `#26241e`
+```css
+/* Currently unused but available for future depth levels */
+```
+<div style={{background: '#26241e', padding: '20px', borderRadius: '4px', color: 'white'}}>
+  #26241e - Card level 3
+</div>
+
+#### `--color-theme-card-04-hex`
+**Value:** `#2b2923`
+```css
+.btn-primary:hover {
+    background: var(--color-theme-card-04-hex);
+}
+
+.recent__item2--card:hover {
+    background-color: var(--color-theme-card-04-hex);
+}
+```
+<div style={{background: '#2b2923', padding: '20px', borderRadius: '4px', color: 'white'}}>
+  #2b2923 - Card level 4 / Hover state
+</div>
+
+  </Tab>
+  <Tab title="RGB Variant">
+
+#### `--color-theme-card-rgb`
+
+**Value:** `27 29 39`
+
+**Format:** Space-separated RGB values (no commas)
+
+**Usage:** For use with modern CSS functions like `rgb()` or `rgba()`
+
+```css
+/* Example usage (not in current code) */
+background: rgb(var(--color-theme-card-rgb));
+background: rgba(var(--color-theme-card-rgb) / 0.5);
+```
+
+<Note>
+**Modern CSS Syntax:** This format is designed for the modern CSS color syntax where alpha is separated by `/` instead of comma.
+</Note>
+
+  </Tab>
+</Tabs>
+
+### Foreground Colors
+
+<Accordion title="Primary Foreground: --color-theme-fg">
+
+**Value:** `#edecec`
+
+**Usage:** Primary text color throughout the application
+
+```css
+body {
+    color: var(--color-theme-fg);
+}
+
+.nav__center a {
+    color: var(--color-theme-fg);
+}
+
+.btn-primary {
+    color: var(--color-theme-fg);
+}
+```
+
+<div style={{background: '#edecec', padding: '20px', borderRadius: '4px', color: '#000'}}>
+  #edecec - Primary text (near white)
+</div>
+
+**Where it's used:**
+- Body text
+- Navigation links
+- Button text
+- All primary content
+
+**Contrast Ratio:** ~12:1 against `--color-theme-bg` (excellent for accessibility)
+
+</Accordion>
+
+<Accordion title="Secondary Foreground: --color-theme-fg-02">
+
+**Value:** `#d7d6d5`
+
+**Usage:** Slightly dimmer foreground color for subtle variations
+
+```css
+.btn-secondary:hover {
+    background: var(--color-theme-fg-02);
+}
+```
+
+<div style={{background: '#d7d6d5', padding: '20px', borderRadius: '4px', color: '#000'}}>
+  #d7d6d5 - Secondary foreground
+</div>
+
+**Use case:** Hover states where slight color shift is desired
+
+</Accordion>
+
+### Semantic Colors
+
+<Accordion title="Soft Text: --color-soft">
+
+**Value:** `color-mix(in oklab, var(--color-theme-fg)60%, transparent)`
+
+**Dynamic Value:** Computed from `--color-theme-fg` at 60% opacity
+
+**Usage:** Muted/secondary text throughout the UI
+
+```css
+.nav__center a:hover {
+    color: var(--color-soft);
+}
+
+.commenter__details>p:nth-of-type(2) {
+    color: var(--color-soft);
+}
+
+.footer__end--item1 {
+    color: var(--color-soft);
+}
+```
+
+**Where it's used:**
+- Navigation hover states
+- Secondary text in testimonials
+- Footer text
+- Timestamps and metadata
+- Descriptive subtitles
+
+**Alternative inline usage:**
+```css
+.card__item1 h4 {
+    color: color-mix(in oklab, var(--color-theme-fg) 60%, transparent);
+}
+```
+
+<Note>
+**Color-mix Function:** Uses the OKLAB color space for perceptually uniform color mixing, creating more natural-looking transparency than traditional rgba.
+</Note>
+
+</Accordion>
+
+<Accordion title="Hover State: --color-theme-card-hover-hex">
+
+**Value:** `#201e18`
+
+**Note:** Identical to `--color-theme-card-02-hex`
+
+```css
+/* Available but not actively used in current implementation */
+```
+
+**Purpose:** Semantic token for hover states on cards (future use)
+
+</Accordion>
+
+## Color Palette Reference
+
+### Complete Color Scale
+
+The design system uses a progressive scale from darkest to lightest:
+
+<CodeGroup>
+
+```css Dark (Background)
+--color-theme-bg: #14120b
+```
+
+```css Card Layers (Depth)
+--color-theme-card-hex:        #1b1913  ↑
+--color-theme-card-01-hex:     #1d1b15  |
+--color-theme-card-02-hex:     #201e18  |
+--color-theme-card-03-hex:     #26241e  |
+--color-theme-card-04-hex:     #2b2923  lighter
+```
+
+```css Light (Foreground)
+--color-theme-fg-02: #d7d6d5
+--color-theme-fg:    #edecec
+```
+
+</CodeGroup>
+
+### Visual Scale
+
+<div style={{display: 'flex', flexDirection: 'column', gap: '4px'}}>
+  <div style={{background: '#14120b', padding: '12px', color: 'white', fontSize: '12px'}}>#14120b - theme-bg</div>
+  <div style={{background: '#1b1913', padding: '12px', color: 'white', fontSize: '12px'}}>#1b1913 - card-hex</div>
+  <div style={{background: '#1d1b15', padding: '12px', color: 'white', fontSize: '12px'}}>#1d1b15 - card-01</div>
+  <div style={{background: '#201e18', padding: '12px', color: 'white', fontSize: '12px'}}>#201e18 - card-02</div>
+  <div style={{background: '#26241e', padding: '12px', color: 'white', fontSize: '12px'}}>#26241e - card-03</div>
+  <div style={{background: '#2b2923', padding: '12px', color: 'white', fontSize: '12px'}}>#2b2923 - card-04</div>
+  <div style={{background: '#d7d6d5', padding: '12px', color: '#000', fontSize: '12px'}}>#d7d6d5 - fg-02</div>
+  <div style={{background: '#edecec', padding: '12px', color: '#000', fontSize: '12px'}}>#edecec - theme-fg</div>
+</div>
+
+## Hard-coded Colors
+
+While most colors use tokens, some values are hard-coded for specific purposes:
+
+### Brand Accent Orange
+
+```css styles.css
+.card__item1 a {
+    color: #f54e00;
+}
+
+.card__item1 a:hover {
+    color: #cf4200;
+}
+```
+
+**Usage:**
+- All call-to-action links
+- Interactive link elements
+- Brand accent color
+
+<div style={{display: 'flex', gap: '10px'}}>
+  <div style={{background: '#f54e00', padding: '20px', borderRadius: '4px', color: 'white', flex: 1}}>
+    #f54e00 - Primary CTA
+  </div>
+  <div style={{background: '#cf4200', padding: '20px', borderRadius: '4px', color: 'white', flex: 1}}>
+    #cf4200 - CTA Hover
+  </div>
+</div>
+
+<Warning>
+**Inconsistency:** These accent colors should be converted to CSS custom properties for better theme flexibility:
+
+```css
+:root {
+  --color-accent-primary: #f54e00;
+  --color-accent-hover: #cf4200;
+}
+```
+</Warning>
+
+### Theme Switcher Colors
+
+```css styles.css
+.theme-buttons {
+    background: #1f1f1f;
+}
+
+.theme-btn {
+    color: #a0a0a0;
+}
+
+.theme-btn:hover {
+    background: #3a3a3a;
+}
+
+.theme-btn.active {
+    background: #3a3a3a;
+    color: #ffffff;
+}
+```
+
+**Hard-coded for component isolation** - these could use theme tokens
+
+### Features Grid Background
+
+```css styles.css
+.features__grid__card__item2.c1 {
+    background-color: #423D35;
+}
+```
+
+**Single-use color** for the model selector card background
+
+<div style={{background: '#423D35', padding: '20px', borderRadius: '4px', color: 'white'}}>
+  #423D35 - Features card accent
+</div>
+
+## Usage Patterns
+
+### How to Use Tokens
+
+<Tabs>
+  <Tab title="Background">
+
+```css
+/* Primary background */
+.element {
+    background-color: var(--color-theme-bg);
+}
+
+/* Card backgrounds (choose appropriate depth) */
+.card-level-1 {
+    background-color: var(--color-theme-card-01-hex);
+}
+
+.card-level-2 {
+    background-color: var(--color-theme-card-02-hex);
+}
+
+/* Hover states */
+.interactive-card:hover {
+    background-color: var(--color-theme-card-04-hex);
+}
+```
+
+  </Tab>
+  <Tab title="Text Color">
+
+```css
+/* Primary text */
+.text-primary {
+    color: var(--color-theme-fg);
+}
+
+/* Muted/secondary text */
+.text-muted {
+    color: var(--color-soft);
+}
+
+/* Alternative muted text (inline) */
+.text-subtle {
+    color: color-mix(in oklab, var(--color-theme-fg) 60%, transparent);
+}
+```
+
+  </Tab>
+  <Tab title="Borders">
+
+```css
+/* Subtle borders using card colors */
+.bordered {
+    border: 1px solid var(--color-theme-card-04-hex);
+}
+
+/* Example from buttons */
+.btn-primary {
+    border: 1px solid var(--color-theme-card-04-hex);
+}
+
+/* Example from cards */
+.recent__item2--card {
+    border: 1px solid rgb(32, 30, 24);
+}
+```
+
+  </Tab>
+</Tabs>
+
+## Token Naming Convention
+
+### Pattern Analysis
+
+```
+--color-[context]-[element]-[variant]-[format]
+
+Examples:
+--color-theme-bg                 (theme, background)
+--color-theme-fg                 (theme, foreground)
+--color-theme-card-01-hex       (theme, card, variant 01, hex format)
+--color-theme-card-rgb          (theme, card, rgb format)
+```
+
+**Breakdown:**
+- `color` - Type prefix
+- `theme` - Context (all tokens are theme-related)
+- `bg/fg/card` - Element type
+- `01/02/03/04` - Variant number (card depth levels)
+- `hex/rgb` - Format suffix
+
+## Design Token Benefits
+
+<Accordion title="Centralized Theming">
+
+All color values in one place makes theme creation simple:
+
+```css
+/* Dark theme (current) */
+:root {
+    --color-theme-bg: #14120b;
+    --color-theme-fg: #edecec;
+}
+
+/* Light theme (example) */
+:root {
+    --color-theme-bg: #ffffff;
+    --color-theme-fg: #14120b;
+}
+```
+
+No need to search through CSS file - just update `:root` values.
+
+</Accordion>
+
+<Accordion title="Runtime Theme Switching">
+
+CSS custom properties can be changed with JavaScript:
+
+```javascript
+// Switch to light theme
+document.documentElement.style.setProperty('--color-theme-bg', '#ffffff');
+document.documentElement.style.setProperty('--color-theme-fg', '#14120b');
+```
+
+This enables dynamic theme switching without reloading CSS.
+
+</Accordion>
+
+<Accordion title="Consistent Design Language">
+
+Using tokens ensures visual consistency:
+
+```css
+/* Instead of */
+.card-1 { background: #1d1b15; }
+.card-2 { background: #1d1b15; }
+.card-3 { background: #1c1b14; } /* Oops, slight variation! */
+
+/* Use tokens */
+.card-1,
+.card-2,
+.card-3 {
+    background: var(--color-theme-card-01-hex);
+}
+```
+
+</Accordion>
+
+## Best Practices
+
+<Note>
+**✅ Do:**
+- Always use `var(--token-name)` instead of hard-coded colors
+- Follow the existing naming convention
+- Use appropriate card depth levels to create hierarchy
+- Use `--color-soft` for secondary text
+- Test color contrast for accessibility
+
+**❌ Don't:**
+- Hard-code colors (except for truly unique one-off cases)
+- Skip token levels (e.g., don't go from bg to card-04)
+- Override tokens with `!important`
+- Use tokens for non-theme colors (e.g., brand orange)
+</Note>
+
+## Recommended Improvements
+
+<Warning>
+**Suggestions for Enhancement:**
+
+1. **Add missing tokens:**
+```css
+:root {
+  --color-accent-primary: #f54e00;
+  --color-accent-hover: #cf4200;
+  --border-color-subtle: var(--color-theme-card-04-hex);
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 30px;
+}
+```
+
+2. **Add spacing tokens:**
+```css
+:root {
+  --space-xs: 4px;
+  --space-sm: 10px;
+  --space-md: 20px;
+  --space-lg: 90px;
+  --space-xl: 180px;
+}
+```
+
+3. **Add typography tokens:**
+```css
+:root {
+  --font-family-primary: 'Gothic', 'Inter', sans-serif;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.625rem;
+  --font-size-xl: 2.25rem;
+}
+```
+
+4. **Create semantic tokens:**
+```css
+:root {
+  --color-text-primary: var(--color-theme-fg);
+  --color-text-secondary: var(--color-soft);
+  --color-bg-primary: var(--color-theme-bg);
+  --color-bg-elevated: var(--color-theme-card-01-hex);
+}
+```
+</Warning>
+
+## Token Reference Table
+
+| Token | Value | Usage | Count |
+|-------|-------|-------|-------|
+| `--color-theme-bg` | `#14120b` | Page background | ~3 uses |
+| `--color-theme-fg` | `#edecec` | Primary text | ~5 uses |
+| `--color-theme-fg-02` | `#d7d6d5` | Button hover | 1 use |
+| `--color-theme-card-hex` | `#1b1913` | Base cards | ~3 uses |
+| `--color-theme-card-01-hex` | `#1d1b15` | Card level 1 | ~5 uses |
+| `--color-theme-card-02-hex` | `#201e18` | Card level 2 | ~2 uses |
+| `--color-theme-card-03-hex` | `#26241e` | Reserved | 0 uses |
+| `--color-theme-card-04-hex` | `#2b2923` | Hover states | ~3 uses |
+| `--color-soft` | `color-mix(...)` | Muted text | ~7 uses |
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="CSS System" icon="paintbrush" href="/structure/css-system">
+    Learn how design tokens are applied in the CSS architecture
+  </Card>
+  <Card title="HTML Architecture" icon="code" href="/structure/html-architecture">
+    See how tokens are used in component markup
+  </Card>
+</CardGroup>

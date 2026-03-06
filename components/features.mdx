@@ -1,0 +1,315 @@
+---
+title: Features Section
+description: A three-column grid showcasing product features with custom content displays
+---
+
+## Overview
+
+The features section displays three key product capabilities in a grid layout. Each feature card contains a title, description, link, and unique visual content (model selector, animated GIF, or image).
+
+## Visual Description
+
+This section includes:
+- A section heading: "Stay on the frontier"
+- Three equal-width feature cards arranged horizontally
+- Each card has text at the top and a custom content area below
+- Card 1: Shows a list of AI models with a checkmark indicator
+- Card 2: Displays an animated GIF demonstrating codebase understanding
+- Card 3: Features a team photo
+
+## HTML Structure
+
+```html
+<section class="container features p-20">
+  <h3>Stay on the frontier</h3>
+
+  <div class="features__grid">
+    <div class="features__grid__card">
+      <div class="features__grid__card__item1">
+        <p>Access the best models</p>
+        <p>Choose between every cutting-edge model from OpenAI, Anthropic, Gemini, and xAI.</p>
+        <div>
+          <a href="#">Explore models ↗</a>
+        </div>
+      </div>
+      <div class="features__grid__card__item2 c1">
+        <ul class="button-list">
+          <li>
+            Auto <span>Suggested</span>
+          </li>
+          <li>
+            Composer 1
+          </li>
+          <li>
+            GPT-5.2 <span>High Fast</span>
+          </li>
+          <li>
+            Claude Sonnet 4.5 <span class="button-list-item-left">✓</span>
+          </li>
+          <li>
+            Claude Opus 4.5
+          </li>
+          <li>
+            Gemini 3 Pro
+          </li>
+          <li>
+            Grok Code
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Card 2 and 3... -->
+  </div>
+</section>
+```
+
+## CSS Styling
+
+### Section Container
+
+```css
+.features {
+  margin-top: 180px;
+  gap: 20px;
+}
+
+.features h3 {
+  align-self: flex-start;
+  text-align: left;
+  font-size: 1.625rem;
+  font-weight: 400;
+}
+```
+
+<Note>
+Large top margin (180px) creates clear section separation from previous content.
+</Note>
+
+### Grid Layout
+
+```css
+.features__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+```
+
+### Feature Cards
+
+```css
+.features__grid__card {
+  height: 553px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 4px;
+  padding: 20px;
+  background-color: var(--color-theme-card-01-hex);
+}
+```
+
+Each card:
+- Has a fixed height of 553px for visual consistency
+- Uses vertical flexbox layout
+- Has a dark background with subtle border radius
+
+### Text Content Area
+
+```css
+.features__grid__card__item1 > p {
+  font-size: 16px;
+}
+
+.features__grid__card__item1 > p:nth-of-type(2) {
+  color: var(--color-soft);
+}
+
+.features__grid__card__item1 div {
+  margin: 12px 0;
+}
+
+.features__grid__card__item1 div a {
+  font-size: 16px;
+  text-decoration: none;
+  color: #f54e00;
+}
+
+.features__grid__card__item1 div a:hover {
+  color: #cf4200;
+}
+```
+
+<Tip>
+The second paragraph uses `var(--color-soft)` for 60% opacity, creating visual hierarchy.
+</Tip>
+
+### Visual Content Area
+
+```css
+.features__grid__card__item2 {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.features__grid__card__item2.c1 {
+  background-color: #423D35;
+}
+
+.features__grid__card__item2 img {
+  height: 406px;
+}
+```
+
+## Model Selector Component
+
+The first card features a custom model selector UI:
+
+```css
+.button-list {
+  font-size: 13px;
+  font-weight: 400;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  text-decoration: none;
+  list-style: none;
+  border-radius: 8px;
+  background-color: var(--color-theme-card-01-hex);
+  width: 320px;
+  height: 208px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-evenly;
+  padding: 4px 12px;
+  box-shadow: 0 1px 1px rgba(255, 255, 255, .5);
+}
+
+.button-list li {
+  font-size: 13px;
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+}
+
+.button-list li span {
+  font-size: 12px;
+  margin-left: 10px;
+  color: var(--color-soft);
+}
+
+.button-list li .button-list-item-left {
+  flex: 1;
+  text-align: right;
+}
+```
+
+<Warning>
+The model selector uses system fonts instead of the page's custom "Gothic" font for better UI legibility.
+</Warning>
+
+## Complete Example
+
+```html
+<section class="container features p-20">
+  <h3>Stay on the frontier</h3>
+
+  <div class="features__grid">
+    <!-- Feature Card -->
+    <div class="features__grid__card">
+      <div class="features__grid__card__item1">
+        <p>Feature Title</p>
+        <p>Feature description explaining the benefit.</p>
+        <div>
+          <a href="#">Learn more ↗</a>
+        </div>
+      </div>
+      <div class="features__grid__card__item2">
+        <!-- Custom content: image, GIF, or component -->
+        <img src="feature.png" alt="Feature visualization">
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+## Three Feature Types
+
+<CardGroup cols={3}>
+  <Card title="Model Access" icon="brain">
+    Displays an interactive model selector UI with checkmark indicator
+  </Card>
+  <Card title="Codebase Understanding" icon="search">
+    Shows an animated GIF demonstrating semantic search capabilities
+  </Card>
+  <Card title="Enterprise" icon="building">
+    Features a team photo emphasizing scale and trust
+  </Card>
+</CardGroup>
+
+## Layout Structure
+
+<Steps>
+  <Step title="Section heading">
+    Left-aligned h3 at the top of the section
+  </Step>
+  <Step title="Three-column grid">
+    Grid with equal-width columns and 10px gap
+  </Step>
+  <Step title="Text content">
+    Title, description, and link at the top of each card
+  </Step>
+  <Step title="Visual content">
+    Flexible content area (`flex: 1`) below text
+  </Step>
+</Steps>
+
+## Customization Options
+
+### Adding New Features
+
+To add a feature card:
+
+```html
+<div class="features__grid__card">
+  <div class="features__grid__card__item1">
+    <p>Your Feature Title</p>
+    <p>Description of the feature benefits.</p>
+    <div>
+      <a href="#">Learn more ↗</a>
+    </div>
+  </div>
+  <div class="features__grid__card__item2">
+    <!-- Your custom content -->
+  </div>
+</div>
+```
+
+### Custom Background
+
+The `.c1` modifier class applies a custom background to the first card's content area. Create similar modifiers for other cards:
+
+```css
+.features__grid__card__item2.c2 {
+  background-color: #YOUR_COLOR;
+}
+```
+
+<Note>
+Card 2 uses `.c2` class but doesn't define a custom background in the source CSS.
+</Note>
+
+## Typography & Colors
+
+| Element | Font Size | Color | Usage |
+|---------|-----------|-------|-------|
+| Section heading | 1.625rem (26px) | White | Main title |
+| Feature title | 16px | White | Card heading |
+| Description | 16px | 60% opacity | Muted explanation |
+| Link | 16px | #f54e00 | Orange accent |
+| Model list | 13px | White | UI component |

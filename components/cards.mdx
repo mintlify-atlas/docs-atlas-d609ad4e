@@ -1,0 +1,259 @@
+---
+title: Card Components
+description: Feature cards with alternating layouts showing product capabilities
+---
+
+## Overview
+
+The card component displays feature information in a two-column layout with an image and text description. Cards alternate their layout direction to create visual interest.
+
+## Visual Description
+
+Each card contains:
+- **Text section**: Feature heading, description, and a "Learn more" link
+- **Image section**: A product screenshot or illustration
+
+Odd-numbered cards display text on the left, even-numbered cards display text on the right, creating a zigzag pattern down the page.
+
+## HTML Structure
+
+```html
+<section class="container p-20">
+  <div class="card">
+    <div class="card__item1">
+      <h3>Agent turns ideas into code</h3>
+      <h4>A human-AI programmer, orders of magnitude more effective than any developer alone.</h4>
+      <a href="#">Learn about Agent →</a>
+    </div>
+    <div class="card__item2">
+      <img class="card__item2__img" src="images/image2.png" alt="">
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card__item1">
+      <h3>Magically accurate autocomplete</h3>
+      <h4>Our custom Tab model predicts your next action with striking speed and precision.</h4>
+      <a href="#">Learn about Tab →</a>
+    </div>
+    <div class="card__item2">
+      <img class="card__item2__img" src="images/image3.png" alt="">
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card__item1">
+      <h3>Everywhere software gets built</h3>
+      <h4>Cursor is in GitHub reviewing your PRs, a teammate in Slack, and anywhere else you work.</h4>
+      <a href="#">Learn about Cursor's ecosystem →</a>
+    </div>
+    <div class="card__item2">
+      <img class="card__item2__img" src="images/image4.png" alt="">
+    </div>
+  </div>
+</section>
+```
+
+## CSS Styling
+
+### Container
+
+```css
+.container {
+  margin: 0px 90px 60px 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 100px;
+  align-items: center;
+}
+```
+
+<Note>
+The 100px gap creates substantial vertical spacing between cards.
+</Note>
+
+### Card Base
+
+```css
+.card {
+  width: 100%;
+  display: flex;
+  background-color: var(--color-theme-card-01-hex);
+  padding: 20px;
+}
+```
+
+### Alternating Layout
+
+```css
+.card:nth-child(odd) {
+  flex-direction: row;
+}
+
+.card:nth-child(even) {
+  flex-direction: row-reverse;
+}
+```
+
+<Tip>
+Using `:nth-child()` selectors automatically alternates the layout without additional classes.
+</Tip>
+
+### Text Section
+
+```css
+.card__item1 {
+  text-align: start;
+  width: 410px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  padding: 20px;
+}
+
+.card__item1 h3 {
+  font-size: 22px;
+  font-weight: lighter;
+}
+
+.card__item1 h4 {
+  font-size: 22px;
+  font-weight: lighter;
+  color: color-mix(in oklab, var(--color-theme-fg) 60%, transparent);
+}
+
+.card__item1 a {
+  font-size: 16px;
+  text-decoration: none;
+  color: #f54e00;
+}
+
+.card__item1 a:hover {
+  color: #cf4200;
+}
+```
+
+The text section uses:
+- Fixed width (410px) for consistent proportions
+- Vertical centering with `justify-content: center`
+- Lighter font weight for an elegant look
+- Reduced opacity for the description text (60%)
+- Orange accent color for links
+
+### Image Section
+
+```css
+.card__item2 {
+  flex: 1;
+}
+
+.card__item2__img {
+  width: 100%;
+}
+```
+
+<Warning>
+The image section uses `flex: 1` to fill remaining space, making the layout responsive to different content widths.
+</Warning>
+
+## Complete Example
+
+Here's a full working example with all styles:
+
+```html
+<section class="container p-20">
+  <div class="card">
+    <div class="card__item1">
+      <h3>Your Feature Title</h3>
+      <h4>A descriptive subtitle explaining the feature's benefits and capabilities.</h4>
+      <a href="#">Learn more →</a>
+    </div>
+    <div class="card__item2">
+      <img class="card__item2__img" src="feature-image.png" alt="Feature screenshot">
+    </div>
+  </div>
+</section>
+```
+
+```css
+.container {
+  margin: 0px 90px 60px 90px;
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+  align-items: center;
+}
+
+.card {
+  width: 100%;
+  display: flex;
+  background-color: var(--color-theme-card-01-hex);
+  padding: 20px;
+}
+
+.card:nth-child(odd) {
+  flex-direction: row;
+}
+
+.card:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.card__item1 {
+  text-align: start;
+  width: 410px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  padding: 20px;
+}
+
+.card__item2 {
+  flex: 1;
+}
+
+.card__item2__img {
+  width: 100%;
+}
+```
+
+## Layout Mechanics
+
+<Steps>
+  <Step title="Container sets up vertical flow">
+    `.container` uses flexbox with `flex-direction: column` and 100px gaps
+  </Step>
+  <Step title="Cards alternate direction">
+    Odd cards use `flex-direction: row`, even cards use `row-reverse`
+  </Step>
+  <Step title="Text has fixed width">
+    `.card__item1` maintains 410px width for consistent proportions
+  </Step>
+  <Step title="Image fills remaining space">
+    `.card__item2` uses `flex: 1` to expand
+  </Step>
+</Steps>
+
+## Color Palette
+
+| Element | Color | Usage |
+|---------|-------|-------|
+| Card background | `var(--color-theme-card-01-hex)` | `#1d1b15` |
+| Heading | `var(--color-theme-fg)` | `#edecec` |
+| Description | 60% opacity foreground | Muted text |
+| Link | `#f54e00` | Orange accent |
+| Link hover | `#cf4200` | Darker orange |
+
+## Reusability
+
+The `.card` component is also used in the changelog section (lines 290-308) with different content structure, demonstrating its flexibility:
+
+```html
+<div class="card">
+  <p><span>2.4</span> Jan 22,2026</p>
+  <p>Subagents, Skills, and Image Generation</p>
+</div>
+```

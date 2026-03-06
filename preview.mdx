@@ -1,0 +1,332 @@
+---
+title: 'Preview'
+description: 'See what the Cursor UI Clone looks like and explore its features'
+---
+
+## Overview
+
+The Cursor UI Clone is a pixel-perfect recreation of the Cursor.com homepage, built entirely with vanilla HTML and CSS. It showcases modern web design techniques without relying on any JavaScript frameworks.
+
+## Full Page Preview
+
+<img src="/images/fullSS.png" alt="Cursor UI Clone Full Screenshot" />
+
+<Note>
+  This is a faithful recreation of the Cursor.com homepage for educational purposes, demonstrating advanced CSS techniques and modern web design principles.
+</Note>
+
+## Page Sections
+
+The clone includes all major sections from the original Cursor homepage:
+
+### Navigation Header
+
+A sticky navigation bar with:
+- Cursor logo and branding
+- Navigation links (Product, Enterprise, Pricing, Resources)
+- Sign in and Download buttons
+- Smooth scroll behavior
+
+```html
+<header>
+  <nav class="nav flex justify-between align-center">
+    <div class="nav__left flex justify-center align-center">
+      <img class="nav__left__logo" src="AVATAR_CIRCLE_2D_DARK.png" alt="Cursor Logo">
+      <h2>CURSOR</h2>
+    </div>
+    <div class="nav__center">
+      <a href="#">Product</a>
+      <a href="#">Enterprise</a>
+      <a href="#">Pricing</a>
+      <a href="#">Resources</a>
+    </div>
+    <div class="nav__right">
+      <button type="button" class="btn btn-primary">Sign in</button>
+      <button type="button" class="btn btn-secondary">Download</button>
+    </div>
+  </nav>
+</header>
+```
+
+### Hero Section
+
+The main hero area features:
+- Large, impactful headline
+- Call-to-action download button
+- Hero image showcasing the product
+
+```html
+<section class="hero p-20">
+  <h1>Built to make you extraordinarily productive, <br>
+    Cursor is the best way to code with AI.</h1>
+  <button class="hero__cta">Download For Windows
+    <img src="download (2).png" alt="Download icon">
+  </button>
+  <img class="hero__img" src="images/image1.png" alt="">
+</section>
+```
+
+### Trust Section
+
+A grid showcasing company logos with the text:
+> "Trusted every day by millions of professional developers."
+
+This section uses CSS Grid with 8 columns to display company logos in card-style containers:
+
+```css
+.trusted .grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    justify-content: center;
+    gap: 10px;
+}
+```
+
+### Feature Cards
+
+Three major feature cards highlighting:
+
+1. **Agent turns ideas into code**
+   - Description of the AI programmer capabilities
+   - Link to learn more
+
+2. **Magically accurate autocomplete**
+   - Details about the Tab model
+   - Prediction and precision features
+
+3. **Everywhere software gets built**
+   - Ecosystem integration (GitHub, Slack, etc.)
+   - Multi-platform support
+
+Each card alternates its layout direction using CSS:
+
+```css
+.card:nth-child(odd) {
+    flex-direction: row;
+}
+
+.card:nth-child(even) {
+    flex-direction: row-reverse;
+}
+```
+
+### Testimonials
+
+A 3-column grid featuring quotes from industry leaders:
+- Diana Hu (Y Combinator)
+- Jensen Huang (NVIDIA)
+- Andrej Karpathy (Eureka Labs)
+- Patrick Collison (Stripe)
+- shadcn (Creator of shadcn/ui)
+- Greg Brockman (OpenAI)
+
+```css
+.testimonials__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+```
+
+### Features Grid
+
+Three feature cards showcasing:
+
+1. **Access the best models** - AI model selection interface
+2. **Complete codebase understanding** - Semantic search capabilities
+3. **Develop enduring software** - Enterprise features
+
+### Changelog
+
+A 4-column grid displaying recent updates:
+- Version 2.4 (Jan 22, 2026) - Subagents, Skills, and Image Generation
+- Jan 16, 2026 - CLI Agent Modes and Cloud Handoff
+- Jan 8, 2026 - New CLI Features and Improved Performance
+- Version 2.3 (Dec 22, 2025) - Layout Customization
+
+### Recent Highlights
+
+A two-column layout featuring:
+- Product announcements
+- Research updates
+- Technical blog posts
+
+### Footer
+
+Comprehensive footer with:
+- Multi-column navigation (Product, Resources, Company, Legal, Connect)
+- Theme switcher (System, Light, Dark)
+- Language selector
+- Copyright information
+- SOC 2 certification badge
+
+## Design Highlights
+
+### Color Scheme
+
+The project uses CSS custom properties for consistent theming:
+
+```css
+:root {
+    --color-theme-bg: #14120b;
+    --color-theme-fg: #edecec;
+    --color-theme-fg-02: #d7d6d5;
+    --color-theme-card-hex: #1b1913;
+    --color-theme-card-01-hex: #1d1b15;
+    --color-theme-card-02-hex: #201e18;
+    --color-theme-card-03-hex: #26241e;
+    --color-theme-card-04-hex: #2b2923;
+    --color-accent: #f54e00;
+}
+```
+
+### Typography
+
+The clone uses the authentic Cursor Gothic font:
+
+```css
+@font-face {
+    font-family: "Gothic";
+    src: url("./fonts/Gothic.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+```
+
+<Note>
+  The Cursor Gothic font is sourced from [imjac0b/CursorGothic](https://github.com/imjac0b/CursorGothic)
+</Note>
+
+### Responsive Layout
+
+The layout uses modern CSS techniques:
+- **Flexbox** for navigation and card layouts
+- **CSS Grid** for testimonials, features, and changelog sections
+- **Custom properties** for consistent spacing and colors
+- **Color-mix()** for semi-transparent text variations
+
+```css
+.color-soft {
+    color: color-mix(in oklab, var(--color-theme-fg) 60%, transparent);
+}
+```
+
+## Interactive Elements
+
+### Buttons
+
+Two button styles are implemented:
+
+**Primary Button:**
+```css
+.btn-primary {
+    background: var(--color-theme-bg);
+    color: var(--color-theme-fg);
+    border: 1px solid var(--color-theme-card-04-hex);
+}
+
+.btn-primary:hover {
+    background: var(--color-theme-card-04-hex);
+}
+```
+
+**Secondary Button:**
+```css
+.btn-secondary {
+    background: var(--color-theme-fg);
+    color: var(--color-theme-bg);
+}
+
+.btn-secondary:hover {
+    background: var(--color-theme-fg-02);
+}
+```
+
+### Hover Effects
+
+Subtle hover effects throughout:
+- Navigation links fade on hover
+- Cards highlight with background color changes
+- Buttons transition smoothly
+- Links change to a darker orange shade
+
+```css
+.card__item1 a:hover {
+    color: #cf4200; /* Darker orange */
+}
+```
+
+## Technical Implementation
+
+### Semantic HTML
+
+The project uses semantic HTML5 elements:
+- `<header>`, `<nav>`, `<main>`, `<section>`, `<footer>`
+- Proper heading hierarchy (h1, h2, h3, h4)
+- Accessibility-friendly structure
+
+### Modern CSS
+
+Leverages cutting-edge CSS features:
+- CSS Grid and Flexbox for layouts
+- Custom properties (CSS variables)
+- `color-mix()` for dynamic colors
+- `:nth-child()` selectors for alternating layouts
+- Smooth scroll behavior
+
+### Performance
+
+Optimized for performance:
+- Vite with Rolldown for fast builds
+- Font preloading with `font-display: swap`
+- Minimal dependencies (TypeScript only for dev)
+- No JavaScript runtime overhead
+
+## Browser Compatibility
+
+The clone works in all modern browsers that support:
+- CSS Grid
+- CSS Custom Properties
+- Flexbox
+- `color-mix()` function
+
+<Note>
+  For best results, use the latest version of Chrome, Firefox, Safari, or Edge.
+</Note>
+
+## What's Included
+
+<CardGroup cols={2}>
+  <Card title="Pixel-Perfect Design" icon="paintbrush">
+    Faithful recreation of the original Cursor.com design
+  </Card>
+  <Card title="Vanilla HTML/CSS" icon="code">
+    No frameworks - pure web technologies
+  </Card>
+  <Card title="Custom Typography" icon="font">
+    Authentic Cursor Gothic font included
+  </Card>
+  <Card title="Dark Theme" icon="moon">
+    Professional dark color scheme
+  </Card>
+  <Card title="Responsive Layouts" icon="mobile">
+    CSS Grid and Flexbox layouts
+  </Card>
+  <Card title="Fast Development" icon="bolt">
+    Vite-powered dev server with HMR
+  </Card>
+</CardGroup>
+
+## Next Steps
+
+Now that you've seen what the project looks like, you can:
+
+<CardGroup cols={2}>
+  <Card title="Customize" icon="palette" href="/customization/colors">
+    Learn how to modify colors, fonts, and layouts
+  </Card>
+  <Card title="Deploy" icon="rocket" href="/development/deployment">
+    Deploy your clone to production
+  </Card>
+</CardGroup>

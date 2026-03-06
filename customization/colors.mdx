@@ -1,0 +1,234 @@
+---
+title: Color Customization
+description: Customize the color scheme using CSS variables
+---
+
+The Cursor UI Clone uses a comprehensive CSS variable system that makes it easy to customize the entire color scheme. All colors are defined in `styles.css` within the `:root` selector.
+
+## Color System Overview
+
+The design uses a dark theme with carefully chosen colors for backgrounds, foregrounds, and interactive elements.
+
+### Primary Color Variables
+
+```css
+:root {
+    --color-theme-bg: #14120b;
+    --color-theme-fg: #edecec;
+    --color-theme-fg-02: #d7d6d5;
+    --color-theme-card-hex: #1b1913;
+    --color-theme-card-rgb: 27 29 39;
+    --color-theme-card-01-hex: #1d1b15;
+    --color-theme-card-02-hex: #201e18;
+    --color-theme-card-03-hex: #26241e;
+    --color-theme-card-04-hex: #2b2923;
+    --color-theme-card-hover-hex: #201e18;
+    --color-soft: color-mix(in oklab, var(--color-theme-fg) 60%, transparent);
+}
+```
+
+## Key Color Variables
+
+| Variable | Default Value | Usage |
+|----------|---------------|-------|
+| `--color-theme-bg` | `#14120b` | Main background color |
+| `--color-theme-fg` | `#edecec` | Main text/foreground color |
+| `--color-theme-fg-02` | `#d7d6d5` | Secondary foreground (hover states) |
+| `--color-theme-card-hex` | `#1b1913` | Card backgrounds |
+| `--color-theme-card-01-hex` | `#1d1b15` | Primary card variant |
+| `--color-theme-card-02-hex` | `#201e18` | Secondary card variant |
+| `--color-theme-card-03-hex` | `#26241e` | Tertiary card variant |
+| `--color-theme-card-04-hex` | `#2b2923` | Quaternary card variant (hover) |
+| `--color-theme-card-hover-hex` | `#201e18` | Card hover state |
+| `--color-soft` | `color-mix(...)` | Soft/muted text (60% opacity) |
+
+## Customization Examples
+
+### Example 1: Light Theme
+
+Create a light theme by inverting the color scheme:
+
+```css
+:root {
+    --color-theme-bg: #ffffff;
+    --color-theme-fg: #1a1a1a;
+    --color-theme-fg-02: #2a2a2a;
+    --color-theme-card-hex: #f5f5f5;
+    --color-theme-card-rgb: 245 245 245;
+    --color-theme-card-01-hex: #f0f0f0;
+    --color-theme-card-02-hex: #ebebeb;
+    --color-theme-card-03-hex: #e5e5e5;
+    --color-theme-card-04-hex: #e0e0e0;
+    --color-theme-card-hover-hex: #ebebeb;
+    --color-soft: color-mix(in oklab, var(--color-theme-fg) 60%, transparent);
+}
+```
+
+<Tip>
+The `--color-soft` variable uses modern CSS `color-mix()` to create a 60% opacity version of the foreground color. This ensures text remains consistent with your color scheme.
+</Tip>
+
+### Example 2: Blue Theme
+
+Create a modern blue-tinted dark theme:
+
+```css
+:root {
+    --color-theme-bg: #0a0e1a;
+    --color-theme-fg: #e8edf5;
+    --color-theme-fg-02: #d0d8e8;
+    --color-theme-card-hex: #121826;
+    --color-theme-card-rgb: 18 24 38;
+    --color-theme-card-01-hex: #151c2e;
+    --color-theme-card-02-hex: #182038;
+    --color-theme-card-03-hex: #1e2642;
+    --color-theme-card-04-hex: #232c4a;
+    --color-theme-card-hover-hex: #182038;
+    --color-soft: color-mix(in oklab, var(--color-theme-fg) 60%, transparent);
+}
+```
+
+### Example 3: High Contrast Theme
+
+For better accessibility with higher contrast:
+
+```css
+:root {
+    --color-theme-bg: #000000;
+    --color-theme-fg: #ffffff;
+    --color-theme-fg-02: #f0f0f0;
+    --color-theme-card-hex: #1a1a1a;
+    --color-theme-card-rgb: 26 26 26;
+    --color-theme-card-01-hex: #1f1f1f;
+    --color-theme-card-02-hex: #242424;
+    --color-theme-card-03-hex: #2a2a2a;
+    --color-theme-card-04-hex: #303030;
+    --color-theme-card-hover-hex: #242424;
+    --color-soft: color-mix(in oklab, var(--color-theme-fg) 70%, transparent);
+}
+```
+
+## Accent Colors
+
+The clone uses orange as an accent color for links and CTAs. These are hardcoded in specific selectors:
+
+```css
+.card__item1 a {
+    color: #f54e00;  /* Primary accent */
+}
+
+.card__item1 a:hover {
+    color: #cf4200;  /* Hover state */
+}
+```
+
+### Customizing Accent Colors
+
+To change the accent color throughout the site, search for `#f54e00` and `#cf4200` in `styles.css` and replace them:
+
+**Before:**
+```css
+.card__item1 a {
+    color: #f54e00;
+}
+
+.card__item1 a:hover {
+    color: #cf4200;
+}
+```
+
+**After (Blue accent):**
+```css
+.card__item1 a {
+    color: #0066ff;
+}
+
+.card__item1 a:hover {
+    color: #0052cc;
+}
+```
+
+<Note>
+Accent colors appear in multiple locations:
+- `.card__item1 a` (lines 247-252)
+- `.features__grid__card__item1 div a` (lines 359-367)
+- `.changelog a` (lines 464-474)
+- `.recent__item2 a` (lines 539-548)
+
+Update all instances for consistent branding.
+</Note>
+
+## Best Practices
+
+### 1. Maintain Contrast Ratios
+
+Ensure your color choices meet WCAG accessibility standards:
+- **Normal text:** Minimum 4.5:1 contrast ratio
+- **Large text:** Minimum 3:1 contrast ratio
+
+### 2. Use Card Variants Purposefully
+
+The multiple card color variants create visual depth:
+- `--color-theme-card-hex`: Base cards (testimonials, footer)
+- `--color-theme-card-01-hex`: Primary content cards (features, main cards)
+- `--color-theme-card-02-hex`: Secondary cards (recent items)
+- `--color-theme-card-03-hex`: Tertiary elements
+- `--color-theme-card-04-hex`: Hover states and interactive elements
+
+### 3. Test Hover States
+
+When changing colors, verify hover states remain visible:
+
+```css
+.nav__center a:hover {
+    color: var(--color-soft);  /* Uses the soft color variant */
+}
+
+.btn-primary:hover {
+    background: var(--color-theme-card-04-hex);  /* Uses card variant 4 */
+}
+```
+
+## Applying Your Custom Colors
+
+1. **Open `styles.css`** in your editor
+2. **Locate the `:root` selector** (line 12)
+3. **Replace the color values** with your custom palette
+4. **Save and refresh** your browser
+
+<Tip>
+Use a CSS color picker or design tool to generate harmonious color palettes. Tools like [Coolors](https://coolors.co) or [Adobe Color](https://color.adobe.com) can help create accessible color schemes.
+</Tip>
+
+## Dynamic Color Mixing
+
+The `--color-soft` variable demonstrates modern CSS color manipulation:
+
+```css
+--color-soft: color-mix(in oklab, var(--color-theme-fg) 60%, transparent);
+```
+
+This creates a 60% opacity version of the foreground color using the OKLAB color space for perceptually uniform mixing.
+
+### Custom Soft Color Intensity
+
+```css
+/* More subtle (40% opacity) */
+--color-soft: color-mix(in oklab, var(--color-theme-fg) 40%, transparent);
+
+/* More prominent (80% opacity) */
+--color-soft: color-mix(in oklab, var(--color-theme-fg) 80%, transparent);
+```
+
+## Where Colors Are Applied
+
+- **`styles.css:40`**: Body background uses `--color-theme-bg`
+- **`styles.css:41`**: Body text uses `--color-theme-fg`
+- **`styles.css:190`**: Grid cards use `--color-theme-card-hex`
+- **`styles.css:287`**: Testimonial cards use `--color-theme-card-hex`
+- **`styles.css:344`**: Feature cards use `--color-theme-card-01-hex`
+- **`styles.css:526`**: Recent posts use `--color-theme-card-02-hex`
+
+<Note>
+All color variables are centralized in `:root`, making theme-wide changes simple and maintainable.
+</Note>

@@ -1,0 +1,350 @@
+---
+title: 'HTML Architecture'
+description: 'Deep dive into the semantic HTML structure and document organization of the Cursor UI Clone'
+---
+
+## Overview
+
+The Cursor UI Clone uses a clean, semantic HTML5 structure with a single-page architecture. The entire application is contained in `index.html` with a modular section-based layout that prioritizes accessibility and maintainability.
+
+## Document Structure
+
+### Head Configuration
+
+```html index.html
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+  <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cursor</title>
+</head>
+```
+
+**Key Features:**
+- UTF-8 character encoding for international character support
+- Viewport meta tag for responsive design
+- Single external stylesheet (`styles.css`)
+- Minimal dependencies - vanilla HTML/CSS only
+
+## Semantic Layout
+
+The page follows a traditional semantic structure with clear separation of concerns:
+
+```
+index.html
+├── <header>           # Navigation bar
+├── <main>             # Primary content container
+│   ├── <section>      # Hero section
+│   ├── <section>      # Trusted companies
+│   ├── <section>      # Feature cards
+│   ├── <section>      # Testimonials
+│   ├── <section>      # Features grid
+│   ├── <section>      # Changelog
+│   ├── <section>      # Join us CTA
+│   ├── <section>      # Recent highlights
+│   └── <section>      # Download CTA
+└── <footer>           # Footer navigation and info
+```
+
+## Major Sections
+
+### Header & Navigation
+
+<Accordion title="Navigation Structure">
+
+The header uses a sticky position and contains a three-part navigation layout:
+
+```html index.html
+<header>
+  <nav class="nav flex justify-between align-center">
+    <!-- Left: Logo and brand -->
+    <div class="nav__left flex justify-center align-center">
+      <img class="nav__left__logo" src="AVATAR_CIRCLE_2D_DARK.png" alt="Cursor Logo">
+      <h2>CURSOR</h2>
+    </div>
+
+    <!-- Center: Navigation links -->
+    <div class="nav__center">
+      <a href="#">Product</a>
+      <a href="#">Enterprise</a>
+      <a href="#">Pricing</a>
+      <a href="#">Resources</a>
+    </div>
+
+    <!-- Right: Action buttons -->
+    <div class="nav__right">
+      <button type="button" class="btn btn-primary">Sign in</button>
+      <button type="button" class="btn btn-secondary">Download</button>
+    </div>
+  </nav>
+</header>
+```
+
+**BEM Naming Convention:**
+- Block: `nav`
+- Elements: `nav__left`, `nav__center`, `nav__right`, `nav__left__logo`
+- Modifiers: `btn-primary`, `btn-secondary`
+
+</Accordion>
+
+### Hero Section
+
+```html index.html
+<section class="hero p-20">
+  <h1>Built to make you extraordinarily productive, <br>
+    Cursor is the best way to code with AI.</h1>
+  <button class="hero__cta">Download For Windows
+    <img src="download (2).png" alt="Download icon">
+  </button>
+  <img class="hero__img" src="images/image1.png" alt="">
+</section>
+```
+
+**Design Pattern:**
+- Primary heading (`<h1>`) - only one per page (SEO best practice)
+- Call-to-action button with icon
+- Hero image for visual impact
+- Utility class `p-20` for consistent spacing
+
+### Feature Cards Pattern
+
+<Tabs>
+  <Tab title="Structure">
+
+The project uses a reusable card component pattern for feature showcases:
+
+```html index.html
+<section class="container p-20">
+  <div class="card">
+    <div class="card__item1">
+      <h3>Agent turns ideas into code</h3>
+      <h4>A human-AI programmer, orders of magnitude more effective than any developer alone.</h4>
+      <a href="#">Learn about Agent →</a>
+    </div>
+    <div class="card__item2">
+      <img class="card__item2__img" src="images/image2.png" alt="">
+    </div>
+  </div>
+  <!-- Additional cards follow same pattern -->
+</section>
+```
+
+  </Tab>
+  <Tab title="Layout Behavior">
+
+**Alternating Layout:**
+- Cards use `flex-direction: row` for odd cards (content left, image right)
+- Cards use `flex-direction: row-reverse` for even cards (image left, content right)
+- This creates visual variety while maintaining code consistency
+
+**CSS Implementation:**
+```css styles.css
+.card:nth-child(odd) {
+    flex-direction: row;
+}
+
+.card:nth-child(even) {
+    flex-direction: row-reverse;
+}
+```
+
+  </Tab>
+</Tabs>
+
+### Grid Layouts
+
+<Accordion title="Trusted Companies Grid">
+
+8-column grid for company logos:
+
+```html index.html
+<section class="trusted p-20">
+  <h4>Trusted every day by millions of professional developers.</h4>
+  <div class="grid">
+    <div><img src="..." alt=""></div>
+    <div><img src="..." alt=""></div>
+    <!-- 8 total items -->
+  </div>
+</section>
+```
+
+```css styles.css
+.trusted .grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 10px;
+}
+```
+
+</Accordion>
+
+<Accordion title="Testimonials Grid">
+
+3-column responsive testimonials grid:
+
+```html index.html
+<section class="container testimonials p-20">
+  <h2>The new way to build software.</h2>
+  <div class="testimonials__grid">
+    <div>
+      <div>
+        <p>"Quote text..."</p>
+      </div>
+      <div class="commenter">
+        <div><img src="..." alt=""></div>
+        <figcaption class="commenter__details">
+          <p>Diana Hu</p>
+          <p>General Partner, Y Combinator</p>
+        </figcaption>
+      </div>
+    </div>
+    <!-- 6 testimonials total -->
+  </div>
+</section>
+```
+
+```css styles.css
+.testimonials__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+```
+
+</Accordion>
+
+## Footer Architecture
+
+```html index.html
+<footer>
+  <nav class="nav">
+    <ul>
+      <li class="desc">Product</li>
+      <li>Agents</li>
+      <li>Enterprise</li>
+      <!-- More links -->
+    </ul>
+    <!-- 5 total columns -->
+  </nav>
+  
+  <div class="footer__end">
+    <div class="footer__end--item1">
+      <span>© 2026 Anysphere, Inc.</span>
+      <span>🛡 SOC 2 Certified</span>
+    </div>
+    <div class="footer__end--item2">
+      <!-- Theme switcher and language selector -->
+    </div>
+  </div>
+</footer>
+```
+
+**Features:**
+- Multi-column navigation with semantic groupings
+- Inline SVG icons for theme switcher
+- Accessibility-friendly structure with proper `<ul>` and `<li>` elements
+
+## Utility Classes
+
+The project uses a minimal utility-first approach for common patterns:
+
+<CodeGroup>
+
+```html Layout Utilities
+<div class="flex justify-between align-center">
+  <!-- Flexbox with space-between and vertical center -->
+</div>
+```
+
+```html Spacing Utilities
+<section class="p-20">
+  <!-- Consistent 20px padding -->
+</section>
+```
+
+```html Container Pattern
+<section class="container p-20">
+  <!-- Centered container with max-width and padding -->
+</section>
+```
+
+</CodeGroup>
+
+## Accessibility Features
+
+<Note>
+**Accessibility Considerations:**
+- Semantic HTML5 elements (`<header>`, `<nav>`, `<main>`, `<footer>`, `<section>`)
+- Proper heading hierarchy (h1 → h2 → h3 → h4)
+- `alt` attributes on images (though some are empty and should be improved)
+- `<figcaption>` for testimonial attributions
+- Button `type` attributes specified
+- Keyboard-accessible interactive elements
+</Note>
+
+## Key Patterns
+
+### BEM Methodology
+
+The project follows Block Element Modifier (BEM) naming:
+
+```
+Block:    .nav, .card, .hero
+Element:  .nav__left, .card__item1, .hero__cta
+Modifier: .btn-primary, .btn-secondary
+```
+
+### Section Container Pattern
+
+Each major section follows this pattern:
+
+1. **Wrapper:** `<section>` with semantic class name
+2. **Spacing:** `container` and `p-20` utility classes
+3. **Content:** Heading + content grid/flex layout
+4. **Imagery:** Images placed in dedicated wrappers
+
+## Performance Considerations
+
+<Accordion title="Asset Loading Strategy">
+
+**Inline vs. External:**
+- CSS: External file (`styles.css`) - allows browser caching
+- Images: Referenced via `src` attributes - can be lazy loaded
+- SVG Icons: Inline in HTML for theme switcher - eliminates HTTP requests
+- Fonts: Google Fonts and local font files
+
+**Optimization Opportunities:**
+- Add `loading="lazy"` to below-the-fold images
+- Consider WebP format for hero images
+- Add width/height attributes to prevent layout shift
+
+</Accordion>
+
+## Best Practices Demonstrated
+
+✅ Single `<h1>` per page (SEO)
+✅ Semantic HTML5 structure
+✅ BEM naming convention
+✅ Reusable component patterns
+✅ Consistent spacing utilities
+✅ Minimal dependencies
+
+<Warning>
+**Areas for Improvement:**
+- Many images lack descriptive `alt` text
+- No `lang` attribute on some sections
+- Consider adding ARIA labels for enhanced accessibility
+- Add meta description and Open Graph tags
+</Warning>
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="CSS System" icon="paintbrush" href="/structure/css-system">
+    Learn about the CSS architecture and styling methodology
+  </Card>
+  <Card title="Design Tokens" icon="palette" href="/structure/design-tokens">
+    Explore CSS variables and the design token system
+  </Card>
+</CardGroup>

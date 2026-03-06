@@ -1,0 +1,178 @@
+---
+title: Navigation Header
+description: The sticky navigation bar component with logo, menu links, and action buttons
+---
+
+## Overview
+
+The navigation header is a sticky top bar that provides site-wide navigation and call-to-action buttons. It features a three-section layout with logo, navigation links, and action buttons.
+
+## Visual Description
+
+The navigation bar sits at the top of the page with a dark background, featuring:
+- **Left section**: Cursor logo and brand name
+- **Center section**: Four navigation links (Product, Enterprise, Pricing, Resources)
+- **Right section**: Two buttons (Sign in, Download)
+
+The header remains visible when scrolling due to its sticky positioning.
+
+## HTML Structure
+
+```html
+<header>
+  <nav class="nav flex justify-between align-center">
+    
+    <div class="nav__left flex justify-center align-center">
+      <img class="nav__left__logo" src="AVATAR_CIRCLE_2D_DARK.png" alt="Cursor Logo">
+      <h2>CURSOR</h2>
+    </div>
+    
+    <div class="nav__center">
+      <a href="#">Product</a>
+      <a href="#">Enterprise</a>
+      <a href="#">Pricing</a>
+      <a href="#">Resources</a>
+    </div>
+    
+    <div class="nav__right">
+      <button type="button" class="btn btn-primary">Sign in</button>
+      <button type="button" class="btn btn-secondary">Download</button>
+    </div>
+    
+  </nav>
+</header>
+```
+
+## CSS Styling
+
+### Header Container
+
+```css
+header {
+  padding: 0 20px;
+  position: sticky;
+  top: 0;
+  background-color: var(--color-theme-bg);
+}
+
+.nav {
+  margin: 0 90px;
+  height: 52px;
+}
+```
+
+<Note>
+The `position: sticky` and `top: 0` properties keep the header visible during scrolling.
+</Note>
+
+### Left Section (Logo)
+
+```css
+.nav__left h2 {
+  font-size: 16px;
+  font-weight: 400;
+  margin-left: -1px;
+  margin-right: 40px;
+}
+
+.nav__left__logo {
+  width: 34px;
+  margin-left: -8px;
+}
+```
+
+### Center Section (Links)
+
+```css
+.nav__center a {
+  padding: 6px 15px;
+  font-size: 14px;
+  color: var(--color-theme-fg);
+  text-decoration: none;
+}
+
+.nav__center a:hover {
+  color: var(--color-soft);
+}
+```
+
+### Right Section (Buttons)
+
+```css
+.nav__right .btn {
+  box-shadow: none;
+  padding: 5px 10px;
+  border-radius: 22px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-primary {
+  background: var(--color-theme-bg);
+  color: var(--color-theme-fg);
+  border: 1px solid var(--color-theme-card-04-hex);
+  margin-right: 4px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: var(--color-theme-card-04-hex);
+}
+
+.btn-secondary {
+  background: var(--color-theme-fg);
+  color: var(--color-theme-bg);
+  margin-right: 4px;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background: var(--color-theme-fg-02);
+}
+```
+
+## Layout System
+
+The navigation uses flexbox utility classes for alignment:
+
+```css
+.flex {
+  display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.align-center {
+  align-items: center;
+}
+```
+
+## Key Features
+
+<CardGroup cols={2}>
+  <Card title="Sticky Positioning" icon="thumbtack">
+    Remains visible at the top while scrolling
+  </Card>
+  <Card title="Flexbox Layout" icon="grip-lines">
+    Three-section layout using space-between justification
+  </Card>
+  <Card title="Hover Effects" icon="hand-pointer">
+    Links and buttons have subtle hover state changes
+  </Card>
+  <Card title="Responsive Buttons" icon="square">
+    Primary (outlined) and secondary (filled) button styles
+  </Card>
+</CardGroup>
+
+## Implementation Notes
+
+<Warning>
+The negative margins on the logo (`margin-left: -8px`) are used for precise visual alignment. Adjust these values if using a different logo.
+</Warning>
+
+- The header uses CSS custom properties for theming (e.g., `var(--color-theme-bg)`)
+- Fixed height of 52px ensures consistent spacing
+- Horizontal margins of 90px on the nav element create page-wide padding
+- Button borders are fully rounded (22px border-radius) for pill-shaped appearance

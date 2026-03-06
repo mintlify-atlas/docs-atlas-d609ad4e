@@ -1,0 +1,410 @@
+---
+title: Footer Component
+description: Site footer with navigation columns, theme controls, and legal information
+---
+
+## Overview
+
+The footer provides comprehensive site navigation, theme controls, language selection, and legal information. It uses a multi-column layout with organized link groups and interactive controls.
+
+## Visual Description
+
+The footer contains:
+- Five columns of navigation links (Product, Resources, Company, Legal, Connect)
+- A bottom bar with copyright, SOC 2 certification, theme switcher, and language selector
+- Dark background matching the site's overall theme
+- Organized information architecture for easy scanning
+
+## HTML Structure
+
+```html
+<footer>
+  <nav class="nav">
+    <ul>
+      <li class="desc">Product</li>
+      <li>Agents</li>
+      <li>Enterprise</li>
+      <li>Code Review</li>
+      <li>Tab</li>
+      <li>CLI</li>
+      <li>Cloud Agents</li>
+      <li>Pricing</li>
+    </ul>
+
+    <ul>
+      <li class="desc">Resources</li>
+      <li>Download</li>
+      <li>Changelog</li>
+      <li>Docs</li>
+      <li>Forum</li>
+      <li>Status</li>
+    </ul>
+
+    <ul>
+      <li class="desc">Company</li>
+      <li>Careers</li>
+      <li>Blog</li>
+      <li>Community</li>
+      <li>Students</li>
+      <li>Brand</li>
+      <li>Anysphere</li>
+    </ul>
+
+    <ul>
+      <li class="desc">Legal</li>
+      <li>Terms of Service</li>
+      <li>Privacy Policy</li>
+      <li>Data Use</li>
+      <li>Security</li>
+    </ul>
+
+    <ul>
+      <li class="desc">Connect</li>
+      <li>X</li>
+      <li>LinkedIn</li>
+      <li>YouTube</li>
+    </ul>
+  </nav>
+  
+  <div class="footer__end">
+    <div class="footer__end--item1">
+      <span>© 2026 Anysphere, Inc.</span>
+      <span>🛡 SOC 2 Certified</span>
+    </div>
+    <div class="footer__end--item2">
+      <div class="theme-buttons">
+        <button class="theme-btn" data-theme="system" title="System">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2" fill="none" />
+            <line x1="8" y1="21" x2="16" y2="21" stroke="currentColor" stroke-width="2" />
+            <line x1="12" y1="17" x2="12" y2="21" stroke="currentColor" stroke-width="2" />
+          </svg>
+        </button>
+        <button class="theme-btn" data-theme="light" title="Light">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="4" fill="currentColor" />
+            <line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <!-- More SVG lines for sun rays -->
+          </svg>
+        </button>
+        <button class="theme-btn active" data-theme="dark" title="Dark">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor" />
+          </svg>
+        </button>
+      </div>
+      <div>
+        <button class="language-btn">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="currentColor" stroke-width="2" fill="none" />
+          </svg>
+          <span>English</span>
+          <span class="dropdown-arrow">▼</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</footer>
+```
+
+## CSS Styling
+
+### Footer Container
+
+```css
+footer {
+  height: 465px;
+  background-color: var(--color-theme-card-hex);
+  padding: 67px 20px;
+}
+
+footer .nav {
+  display: flex;
+  height: 100%;
+}
+```
+
+<Note>
+The footer has a fixed height of 465px and a darker background than the main page.
+</Note>
+
+### Navigation Columns
+
+```css
+.nav ul {
+  list-style-type: none;
+  width: 252px;
+}
+
+.nav ul li {
+  padding: 5px 0;
+  font-size: 0.875rem;
+}
+
+.desc {
+  color: var(--color-soft);
+}
+```
+
+Each column:
+- Has a fixed width of 252px
+- Uses small font size (0.875rem / 14px)
+- Column headers (`.desc` class) have reduced opacity
+
+### Footer Bottom Bar
+
+```css
+.footer__end {
+  background: inherit;
+  margin: 0 90px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer__end--item1,
+.footer__end--item2 {
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-soft);
+}
+```
+
+### Theme Switcher
+
+```css
+.theme-buttons {
+  display: flex;
+  gap: 10px;
+  background: #1f1f1f;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.theme-btn {
+  font-size: 0.875rem;
+  background: transparent;
+  border: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+  color: #a0a0a0;
+}
+
+.theme-btn:hover {
+  background: #3a3a3a;
+}
+
+.theme-btn.active {
+  background: #3a3a3a;
+  color: #ffffff;
+}
+```
+
+<Tip>
+The theme buttons use the `.active` class to indicate the current selection.
+</Tip>
+
+### Language Selector
+
+```css
+.language-btn {
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s ease;
+  font-weight: 200;
+}
+
+.language-btn:hover {
+  background: #3a3a3a;
+}
+
+.dropdown-arrow {
+  font-size: 12px;
+  opacity: 0.7;
+}
+```
+
+## Complete Implementation
+
+Here's a simplified footer structure:
+
+```html
+<footer>
+  <nav class="nav">
+    <!-- Navigation Column -->
+    <ul>
+      <li class="desc">Category</li>
+      <li>Link 1</li>
+      <li>Link 2</li>
+      <li>Link 3</li>
+    </ul>
+    <!-- More columns... -->
+  </nav>
+  
+  <div class="footer__end">
+    <div class="footer__end--item1">
+      <span>© 2026 Company Name</span>
+      <span>Certification</span>
+    </div>
+    <div class="footer__end--item2">
+      <div class="theme-buttons">
+        <button class="theme-btn" data-theme="system" title="System">
+          <!-- SVG icon -->
+        </button>
+        <button class="theme-btn" data-theme="light" title="Light">
+          <!-- SVG icon -->
+        </button>
+        <button class="theme-btn active" data-theme="dark" title="Dark">
+          <!-- SVG icon -->
+        </button>
+      </div>
+      <button class="language-btn">
+        <!-- Globe SVG -->
+        <span>English</span>
+        <span class="dropdown-arrow">▼</span>
+      </button>
+    </div>
+  </div>
+</footer>
+```
+
+## Footer Sections
+
+<Steps>
+  <Step title="Navigation columns">
+    Five equal-width columns with organized link categories
+  </Step>
+  <Step title="Bottom bar layout">
+    Flexbox with space-between for left and right alignment
+  </Step>
+  <Step title="Left side">
+    Copyright and certification information
+  </Step>
+  <Step title="Right side">
+    Interactive theme switcher and language selector
+  </Step>
+</Steps>
+
+## Navigation Categories
+
+<CardGroup cols={3}>
+  <Card title="Product" icon="box">
+    Core product features and offerings
+  </Card>
+  <Card title="Resources" icon="book">
+    Documentation, downloads, and support
+  </Card>
+  <Card title="Company" icon="building">
+    About, careers, and brand information
+  </Card>
+  <Card title="Legal" icon="gavel">
+    Terms, privacy, and compliance
+  </Card>
+  <Card title="Connect" icon="share-nodes">
+    Social media links
+  </Card>
+</CardGroup>
+
+## Theme Switcher Component
+
+The theme switcher includes three options:
+
+| Theme | Icon | Data Attribute |
+|-------|------|----------------|
+| System | Monitor | `data-theme="system"` |
+| Light | Sun | `data-theme="light"` |
+| Dark | Moon | `data-theme="dark"` |
+
+<Warning>
+Theme switching functionality requires JavaScript to toggle the `.active` class and apply theme changes. The HTML/CSS only provides the UI structure.
+</Warning>
+
+## SVG Icons
+
+The footer uses inline SVG icons for:
+- Theme options (system, light, dark)
+- Language selector (globe icon)
+
+All icons use `currentColor` for fill/stroke, allowing them to inherit the button's text color:
+
+```html
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <path d="..." fill="currentColor" />
+</svg>
+```
+
+## Interactive States
+
+### Hover Effects
+
+Both theme buttons and language selector have hover states:
+
+```css
+.theme-btn:hover,
+.language-btn:hover {
+  background: #3a3a3a;
+}
+```
+
+### Active State
+
+The currently selected theme has enhanced styling:
+
+```css
+.theme-btn.active {
+  background: #3a3a3a;
+  color: #ffffff;
+}
+```
+
+## Accessibility Considerations
+
+<Accordion title="Improving accessibility">
+1. Add `title` attributes to theme buttons (already present)
+2. Add `aria-label` to the language button
+3. Make navigation links actual `<a>` tags instead of plain `<li>`
+4. Add `role="navigation"` to the nav element
+5. Consider adding `aria-current="page"` to active links
+</Accordion>
+
+## Responsive Design
+
+The footer's five-column layout may need adjustments for mobile:
+
+```css
+@media (max-width: 768px) {
+  footer .nav {
+    flex-wrap: wrap;
+  }
+  
+  .nav ul {
+    width: 50%;
+    margin-bottom: 20px;
+  }
+  
+  .footer__end {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+```
+
+<Note>
+These responsive styles are suggested improvements not present in the original source.
+</Note>

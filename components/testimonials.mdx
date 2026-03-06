@@ -1,0 +1,289 @@
+---
+title: Testimonials Grid
+description: A responsive grid displaying customer testimonials with avatars and attribution
+---
+
+## Overview
+
+The testimonials section showcases quotes from industry leaders and users. It uses a three-column grid layout with individual cards containing a quote, avatar, name, and title.
+
+## Visual Description
+
+The section displays:
+- A centered headline: "The new way to build software."
+- A 3-column grid of testimonial cards
+- Each card contains a quote, circular avatar, person's name, and their title/company
+
+Testimonials include quotes from notable figures like Diana Hu (Y Combinator), Jensen Huang (NVIDIA), and Andrej Karpathy (Eureka Labs).
+
+## HTML Structure
+
+```html
+<section class="container testimonials p-20">
+  <h2>
+    The new way to build software.
+  </h2>
+  <div class="testimonials__grid">
+    <div>
+      <div>
+        <p>"It was night and day from one batch to another, adoption went from single digits to over 80%. It just spread like wildfire, all the best builders were using Cursor."</p>
+      </div>
+      <div class="commenter">
+        <div><img
+            src="https://cursor.com/marketing-static/_next/image?url=https%3A%2F%2Fptht05hbb1ssoooe.public.blob.vercel-storage.com%2Fassets%2Favatars%2Fdiana-hu-avatar.png&w=96&q=70"
+            alt=""></div>
+        <figcaption class="commenter__details">
+          <p>Diana Hu</p>
+          <p>General Partner, Y Combinator</p>
+        </figcaption>
+      </div>
+    </div>
+    <!-- More testimonials... -->
+  </div>
+</section>
+```
+
+## CSS Styling
+
+### Section Container
+
+```css
+.testimonials {
+  gap: 10px;
+}
+
+.testimonials h2 {
+  padding: 40px 0;
+  font-size: 2.25rem;
+  font-weight: 400;
+}
+```
+
+### Grid Layout
+
+```css
+.testimonials__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+```
+
+<Note>
+The grid uses `repeat(3, 1fr)` to create three equal-width columns.
+</Note>
+
+### Testimonial Cards
+
+```css
+.testimonials__grid > div {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  height: 240px;
+  background-color: var(--color-theme-card-hex);
+  border-radius: 4px;
+}
+
+.testimonials__grid > div > div:nth-of-type(1) {
+  flex: 1;
+  font-size: 16px;
+  text-wrap: wrap;
+  letter-spacing: 0.08px;
+}
+```
+
+Key features:
+- Fixed height (240px) ensures consistent card sizes
+- Flexbox with column direction separates quote from attribution
+- Quote section uses `flex: 1` to fill available space
+- Subtle letter spacing (0.08px) improves readability
+
+### Commenter Section
+
+```css
+.commenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.commenter > div > img {
+  width: 40px;
+  border-radius: 4px;
+}
+
+.commenter__details {
+  flex: 1;
+  font-size: 14px;
+}
+
+.commenter__details > p:nth-of-type(2) {
+  color: var(--color-soft);
+}
+```
+
+<Tip>
+The second paragraph (title/company) uses reduced opacity via `var(--color-soft)` for visual hierarchy.
+</Tip>
+
+## Complete Implementation
+
+```html
+<section class="container testimonials p-20">
+  <h2>The new way to build software.</h2>
+  <div class="testimonials__grid">
+    
+    <div>
+      <div>
+        <p>"Your testimonial quote goes here."</p>
+      </div>
+      <div class="commenter">
+        <div><img src="avatar.png" alt=""></div>
+        <figcaption class="commenter__details">
+          <p>Name</p>
+          <p>Title, Company</p>
+        </figcaption>
+      </div>
+    </div>
+    
+  </div>
+</section>
+```
+
+```css
+.testimonials {
+  gap: 10px;
+}
+
+.testimonials h2 {
+  padding: 40px 0;
+  font-size: 2.25rem;
+  font-weight: 400;
+}
+
+.testimonials__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.testimonials__grid > div {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  height: 240px;
+  background-color: var(--color-theme-card-hex);
+  border-radius: 4px;
+}
+
+.testimonials__grid > div > div:nth-of-type(1) {
+  flex: 1;
+  font-size: 16px;
+  text-wrap: wrap;
+  letter-spacing: 0.08px;
+}
+
+.commenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.commenter > div > img {
+  width: 40px;
+  border-radius: 4px;
+}
+
+.commenter__details {
+  flex: 1;
+  font-size: 14px;
+}
+
+.commenter__details > p:nth-of-type(2) {
+  color: var(--color-soft);
+}
+```
+
+## Card Anatomy
+
+<Steps>
+  <Step title="Quote container">
+    The first `<div>` with `flex: 1` expands to fill available space
+  </Step>
+  <Step title="Commenter section">
+    The `.commenter` div contains avatar and details
+  </Step>
+  <Step title="Avatar image">
+    40px circular image with 4px border radius
+  </Step>
+  <Step title="Details">
+    Name and title stacked vertically, title has reduced opacity
+  </Step>
+</Steps>
+
+## Featured Testimonials
+
+The page includes six testimonials from:
+
+<CardGroup cols={2}>
+  <Card title="Diana Hu" icon="user">
+    General Partner, Y Combinator
+  </Card>
+  <Card title="Jensen Huang" icon="user">
+    President & CEO, NVIDIA
+  </Card>
+  <Card title="Andrej Karpathy" icon="user">
+    CEO, Eureka Labs
+  </Card>
+  <Card title="Patrick Collison" icon="user">
+    Co-Founder & CEO, Stripe
+  </Card>
+  <Card title="shadcn" icon="user">
+    Creator of shadcn/ui
+  </Card>
+  <Card title="Greg Brockman" icon="user">
+    President, OpenAI
+  </Card>
+</CardGroup>
+
+## Design Principles
+
+### Fixed Height Cards
+
+<Warning>
+All cards have a fixed height of 240px. Ensure your testimonial quotes fit within this constraint, or adjust the height value.
+</Warning>
+
+### Typography Hierarchy
+
+| Element | Font Size | Color | Weight |
+|---------|-----------|-------|--------|
+| Section heading | 2.25rem (36px) | White | 400 |
+| Quote text | 16px | White | 400 |
+| Name | 14px | White | 400 |
+| Title/Company | 14px | 60% opacity | 400 |
+
+## Responsive Considerations
+
+The grid uses three columns on desktop. For responsive design, you might add:
+
+```css
+@media (max-width: 1024px) {
+  .testimonials__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .testimonials__grid {
+    grid-template-columns: 1fr;
+  }
+}
+```
+
+<Note>
+These responsive breakpoints are not in the original source but would be necessary for mobile optimization.
+</Note>

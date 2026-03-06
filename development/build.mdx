@@ -1,0 +1,393 @@
+---
+title: Building for Production
+description: Create optimized production builds of the Cursor UI Clone
+---
+
+This guide covers building the Cursor UI Clone for production deployment.
+
+## Quick Build
+
+To create a production build:
+
+<CodeGroup>
+```bash Bun
+bun run build
+```
+
+```bash npm
+npm run build
+```
+
+```bash pnpm
+pnpm build
+```
+
+```bash Yarn
+yarn build
+```
+</CodeGroup>
+
+The build output will be generated in the `dist/` directory.
+
+## Build Process
+
+<Steps>
+  <Step title="Run Build Command">
+    Execute the build command for your package manager:
+
+    ```bash
+    bun run build
+    ```
+
+    Vite will:
+    - Bundle all assets
+    - Minify HTML, CSS, and JavaScript
+    - Optimize images
+    - Generate source maps
+    - Create production-ready files
+  </Step>
+
+  <Step title="Verify Build Output">
+    Check the `dist/` directory:
+
+    ```bash
+    ls -la dist/
+    ```
+
+    You should see:
+    ```
+    dist/
+    ├── index.html          # Minified HTML
+    ├── assets/
+    │   ├── index-[hash].css
+    │   └── index-[hash].js
+    └── [other static assets]
+    ```
+  </Step>
+
+  <Step title="Preview Build Locally">
+    Test the production build on a local server:
+
+    <CodeGroup>
+    ```bash Bun
+    bun run preview
+    ```
+
+    ```bash npm
+    npm run preview
+    ```
+
+    ```bash pnpm
+    pnpm preview
+    ```
+
+    ```bash Yarn
+    yarn preview
+    ```
+    </CodeGroup>
+
+    This starts a local server serving the `dist/` folder, typically at `http://localhost:4173`.
+  </Step>
+</Steps>
+
+## Build Configuration
+
+### Custom Vite Config
+
+Create or modify `vite.config.js` to customize the build process:
+
+```javascript vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    // Output directory
+    outDir: 'dist',
+    
+    // Assets directory (relative to outDir)
+    assetsDir: 'assets',
+    
+    // Minification
+    minify: 'esbuild', // or 'terser' for more aggressive minification
+    
+    // Source maps for debugging (optional)
+    sourcemap: false,
+    
+    // Chunk size warning limit (in kB)
+    chunkSizeWarningLimit: 500,
+    
+    // Rollup options
+    rollupOptions: {
+      output: {
+        // Manual chunk splitting
+        manualChunks: {
+          // vendor: ['dependency-name'],
+        },
+      },
+    },
+  },
+})
+```
+
+### Base Path Configuration
+
+If deploying to a subdirectory, configure the base path:
+
+<Tabs>
+  <Tab title="Root Domain">
+    For `https://example.com/`:
+
+    ```javascript vite.config.js
+    export default defineConfig({
+      base: '/',
+    })
+    ```
+  </Tab>
+
+  <Tab title="Subdirectory">
+    For `https://example.com/cursor-clone/`:
+
+    ```javascript vite.config.js
+    export default defineConfig({
+      base: '/cursor-clone/',
+    })
+    ```
+  </Tab>
+
+  <Tab title="GitHub Pages">
+    For `https://username.github.io/repo-name/`:
+
+    ```javascript vite.config.js
+    export default defineConfig({
+      base: '/repo-name/',
+    })
+    ```
+  </Tab>
+</Tabs>
+
+## Build Optimization
+
+### Asset Optimization
+
+<CardGroup cols={2}>
+  <Card title="CSS Optimization" icon="paintbrush">
+    Vite automatically:
+    - Minifies CSS
+    - Removes unused styles (with PostCSS)
+    - Inlines small CSS files
+    - Code splits CSS by route
+  </Card>
+
+  <Card title="JavaScript Optimization" icon="code">
+    Vite automatically:
+    - Minifies JS with esbuild
+    - Tree-shakes unused code
+    - Generates modern ES modules
+    - Creates optimized chunks
+  </Card>
+
+  <Card title="Image Optimization" icon="image">
+    Consider optimizing images:
+    - Use modern formats (WebP, AVIF)
+    - Compress images before adding
+    - Use appropriate dimensions
+    - Lazy load images
+  </Card>
+
+  <Card title="Font Optimization" icon="font">
+    Font optimization tips:
+    - Subset fonts to required characters
+    - Use `font-display: swap`
+    - Preload critical fonts
+    - Self-host fonts (already done)
+  </Card>
+</CardGroup>
+
+### Performance Tips
+
+```css styles.css
+/* Optimize font loading */
+@font-face {
+  font-family: 'Cursor Gothic';
+  src: url('/fonts/cursor-gothic.woff2') format('woff2');
+  font-display: swap; /* Prevent invisible text during load */
+}
+
+/* Use CSS containment */
+.card {
+  contain: layout style paint;
+}
+
+/* Optimize animations */
+.animated-element {
+  will-change: transform; /* Only for actively animating elements */
+}
+```
+
+## Build Output Analysis
+
+### Check Bundle Size
+
+Install and use the Rollup Visualizer plugin:
+
+```bash
+bun add -D rollup-plugin-visualizer
+```
+
+```javascript vite.config.js
+import { defineConfig } from 'vite'
+import { visualizer } from 'rollup-plugin-visualizer'
+
+export default defineConfig({
+  plugins: [
+    visualizer({
+      open: true,
+      gzipSize: true,
+      brotliSize: true,
+    }),
+  ],
+})
+```
+
+After building, a `stats.html` file will open showing bundle composition.
+
+### Build Statistics
+
+Vite outputs build statistics automatically:
+
+```bash
+vite v7.2.5 building for production...
+✓ 15 modules transformed.
+dist/index.html                   2.15 kB │ gzip: 0.95 kB
+dist/assets/index-a3b4c5d6.css   8.42 kB │ gzip: 2.31 kB
+dist/assets/index-d7e8f9a0.js    1.23 kB │ gzip: 0.68 kB
+✓ built in 345ms
+```
+
+## Environment-Specific Builds
+
+### Production Environment Variables
+
+Create `.env.production` for production-specific variables:
+
+```bash .env.production
+VITE_API_URL=https://api.production.com
+VITE_ANALYTICS_ID=UA-XXXXX-Y
+```
+
+Access in your code:
+```javascript
+if (import.meta.env.PROD) {
+  // Production-only code
+  console.log('Running in production')
+}
+```
+
+### Mode-Specific Builds
+
+Build for specific modes:
+
+```bash
+# Production build (default)
+bun run build
+
+# Staging build
+bun run build --mode staging
+
+# With custom .env file
+bun run build --mode production
+```
+
+## CI/CD Integration
+
+<Tabs>
+  <Tab title="GitHub Actions">
+    ```yaml .github/workflows/build.yml
+    name: Build
+    on: [push]
+    
+    jobs:
+      build:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v4
+          
+          - uses: oven-sh/setup-bun@v1
+            with:
+              bun-version: latest
+          
+          - name: Install dependencies
+            run: bun install
+          
+          - name: Build
+            run: bun run build
+          
+          - name: Upload artifacts
+            uses: actions/upload-artifact@v4
+            with:
+              name: dist
+              path: dist/
+    ```
+  </Tab>
+
+  <Tab title="GitLab CI">
+    ```yaml .gitlab-ci.yml
+    build:
+      image: oven/bun:latest
+      script:
+        - bun install
+        - bun run build
+      artifacts:
+        paths:
+          - dist/
+      only:
+        - main
+    ```
+  </Tab>
+</Tabs>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Build Fails with Memory Error">
+    Increase Node.js memory limit:
+
+    ```json package.json
+    {
+      "scripts": {
+        "build": "NODE_OPTIONS='--max-old-space-size=4096' vite build"
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Assets Not Loading After Build">
+    Check your base path configuration:
+
+    1. Verify `base` in `vite.config.js` matches your deployment path
+    2. Use absolute paths in HTML: `/assets/image.png` not `./assets/image.png`
+    3. Test with `bun run preview` before deploying
+  </Accordion>
+
+  <Accordion title="Large Bundle Size">
+    Reduce bundle size:
+
+    1. Remove unused dependencies
+    2. Use dynamic imports for code splitting
+    3. Optimize images and fonts
+    4. Enable gzip/brotli compression on your server
+    5. Analyze bundle with rollup-plugin-visualizer
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Deploy Your Build" icon="rocket" href="/development/deployment">
+    Learn how to deploy your production build
+  </Card>
+
+  <Card title="Back to Setup" icon="wrench" href="/development/setup">
+    Review development setup instructions
+  </Card>
+</CardGroup>

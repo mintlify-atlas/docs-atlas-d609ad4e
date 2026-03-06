@@ -1,0 +1,273 @@
+---
+title: Development Setup
+description: Get your development environment ready to work on the Cursor UI Clone project
+---
+
+This guide will walk you through setting up your local development environment for the Cursor UI Clone project.
+
+## Prerequisites
+
+Before you begin, ensure you have one of the following JavaScript runtimes installed:
+
+<AccordionGroup>
+  <Accordion title="Bun (Recommended)" icon="rocket">
+    [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime that provides excellent performance.
+
+    **Installation:**
+
+    <CodeGroup>
+    ```bash macOS/Linux
+    curl -fsSL https://bun.sh/install | bash
+    ```
+
+    ```bash Windows (WSL)
+    curl -fsSL https://bun.sh/install | bash
+    ```
+
+    ```bash Windows (PowerShell)
+    powershell -c "irm bun.sh/install.ps1 | iex"
+    ```
+    </CodeGroup>
+
+    Verify installation:
+    ```bash
+    bun --version
+    ```
+  </Accordion>
+
+  <Accordion title="Node.js" icon="node">
+    Node.js is the traditional JavaScript runtime. Version 18 or higher is recommended.
+
+    **Installation:**
+
+    - Download from [nodejs.org](https://nodejs.org/)
+    - Or use a version manager like [nvm](https://github.com/nvm-sh/nvm)
+
+    ```bash
+    # Using nvm
+    nvm install 20
+    nvm use 20
+    ```
+
+    Verify installation:
+    ```bash
+    node --version
+    npm --version
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### Additional Tools
+
+- **Git**: Required for version control
+- **Code Editor**: [VS Code](https://code.visualstudio.com/) recommended
+
+## Installation
+
+<Steps>
+  <Step title="Clone the Repository">
+    Clone the project repository to your local machine:
+
+    ```bash
+    git clone <repository-url>
+    cd cursor-clone
+    ```
+  </Step>
+
+  <Step title="Install Dependencies">
+    Install project dependencies using your preferred package manager:
+
+    <CodeGroup>
+    ```bash Bun
+    bun install
+    ```
+
+    ```bash npm
+    npm install
+    ```
+
+    ```bash pnpm
+    pnpm install
+    ```
+
+    ```bash Yarn
+    yarn install
+    ```
+    </CodeGroup>
+
+    This will install:
+    - **Vite** (Rolldown-powered): Fast build tool and dev server
+    - **TypeScript**: Type support (dev dependency)
+  </Step>
+
+  <Step title="Start Development Server">
+    Launch the development server:
+
+    <CodeGroup>
+    ```bash Bun
+    bun run dev
+    ```
+
+    ```bash npm
+    npm run dev
+    ```
+
+    ```bash pnpm
+    pnpm dev
+    ```
+
+    ```bash Yarn
+    yarn dev
+    ```
+    </CodeGroup>
+
+    The development server will start on `http://localhost:5173` by default.
+  </Step>
+
+  <Step title="Verify Setup">
+    Open your browser and navigate to:
+
+    ```
+    http://localhost:5173
+    ```
+
+    You should see the Cursor UI Clone homepage. The dev server supports:
+    - Hot Module Replacement (HMR)
+    - Instant updates on file changes
+    - Fast refresh
+  </Step>
+</Steps>
+
+## Project Structure
+
+```
+cursor-clone/
+├── index.html          # Main HTML file
+├── styles.css          # Global styles
+├── public/             # Static assets
+│   ├── fonts/         # Cursor Gothic font files
+│   └── images/        # Images and screenshots
+├── package.json        # Project dependencies and scripts
+└── bun.lock           # Lock file (or package-lock.json)
+```
+
+## Configuration
+
+### Vite Configuration
+
+This project uses [Rolldown-powered Vite](https://rolldown.rs/), a faster Vite implementation. The default configuration works out of the box, but you can customize it by creating a `vite.config.js` file:
+
+```javascript vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  server: {
+    port: 5173,
+    open: true, // Auto-open browser
+  },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+  },
+})
+```
+
+### Environment Variables
+
+Create a `.env` file in the root directory for environment-specific variables:
+
+```bash .env
+# Example environment variables
+VITE_APP_TITLE=Cursor UI Clone
+```
+
+Access them in your code:
+```javascript
+const title = import.meta.env.VITE_APP_TITLE
+```
+
+## Development Workflow
+
+### Making Changes
+
+1. **Edit Files**: Modify `index.html`, `styles.css`, or any assets
+2. **See Updates**: Changes appear instantly in the browser
+3. **Check Console**: Monitor the browser console for errors
+
+### Available Scripts
+
+<CardGroup cols={3}>
+  <Card title="dev" icon="code">
+    Start development server with HMR
+    ```bash
+    bun run dev
+    ```
+  </Card>
+
+  <Card title="build" icon="hammer">
+    Build for production
+    ```bash
+    bun run build
+    ```
+  </Card>
+
+  <Card title="preview" icon="eye">
+    Preview production build locally
+    ```bash
+    bun run preview
+    ```
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Port Already in Use">
+    If port 5173 is already in use:
+
+    ```bash
+    # Specify a different port
+    bun run dev -- --port 3000
+    ```
+
+    Or kill the process using the port:
+    ```bash
+    # On macOS/Linux
+    lsof -ti:5173 | xargs kill -9
+
+    # On Windows
+    netstat -ano | findstr :5173
+    taskkill /PID <PID> /F
+    ```
+  </Accordion>
+
+  <Accordion title="Dependencies Installation Fails">
+    Try clearing the cache and reinstalling:
+
+    ```bash
+    # Remove node_modules and lock files
+    rm -rf node_modules bun.lock package-lock.json
+
+    # Reinstall
+    bun install
+    ```
+  </Accordion>
+
+  <Accordion title="Font Not Loading">
+    Ensure the Cursor Gothic font files are in `public/fonts/`. The project uses fonts from [imjac0b/CursorGothic](https://github.com/imjac0b/CursorGothic).
+
+    Check your browser's Network tab to verify font files are loading correctly.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Build for Production" icon="hammer" href="/development/build">
+    Learn how to create optimized production builds
+  </Card>
+
+  <Card title="Deploy Your Site" icon="rocket" href="/development/deployment">
+    Deploy to Vercel, Netlify, or GitHub Pages
+  </Card>
+</CardGroup>

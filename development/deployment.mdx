@@ -1,0 +1,636 @@
+---
+title: Deployment
+description: Deploy the Cursor UI Clone to various hosting platforms
+---
+
+This guide covers deploying your Cursor UI Clone to popular hosting platforms.
+
+## Deployment Platforms
+
+<CardGroup cols={3}>
+  <Card title="Vercel" icon="triangle" color="#000000">
+    Zero-config deployment with automatic builds
+  </Card>
+
+  <Card title="Netlify" icon="mountain" color="#00C7B7">
+    Continuous deployment with form handling
+  </Card>
+
+  <Card title="GitHub Pages" icon="github" color="#181717">
+    Free hosting for public repositories
+  </Card>
+</CardGroup>
+
+## Vercel Deployment
+
+Vercel offers the easiest deployment experience with automatic builds and previews.
+
+<Steps>
+  <Step title="Install Vercel CLI">
+    Install the Vercel CLI globally:
+
+    <CodeGroup>
+    ```bash Bun
+    bun add -g vercel
+    ```
+
+    ```bash npm
+    npm install -g vercel
+    ```
+
+    ```bash pnpm
+    pnpm add -g vercel
+    ```
+    </CodeGroup>
+  </Step>
+
+  <Step title="Login to Vercel">
+    Authenticate with your Vercel account:
+
+    ```bash
+    vercel login
+    ```
+  </Step>
+
+  <Step title="Deploy">
+    Deploy your project:
+
+    ```bash
+    # First deployment (interactive)
+    vercel
+
+    # Production deployment
+    vercel --prod
+    ```
+
+    Vercel will:
+    - Detect Vite automatically
+    - Run `bun run build`
+    - Deploy the `dist/` directory
+    - Provide a live URL
+  </Step>
+</Steps>
+
+### Vercel Configuration
+
+Create `vercel.json` for custom configuration:
+
+```json vercel.json
+{
+  "buildCommand": "bun run build",
+  "outputDirectory": "dist",
+  "devCommand": "bun run dev",
+  "installCommand": "bun install",
+  "framework": "vite",
+  "headers": [
+    {
+      "source": "/fonts/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Vercel GitHub Integration
+
+For automatic deployments on git push:
+
+<Steps>
+  <Step title="Connect Repository">
+    1. Go to [vercel.com](https://vercel.com)
+    2. Click "Add New Project"
+    3. Import your GitHub repository
+  </Step>
+
+  <Step title="Configure Build Settings">
+    Vercel auto-detects settings, but you can customize:
+
+    - **Framework Preset**: Vite
+    - **Build Command**: `bun run build`
+    - **Output Directory**: `dist`
+    - **Install Command**: `bun install`
+  </Step>
+
+  <Step title="Deploy">
+    Click "Deploy" - Vercel will:
+    - Build on every git push
+    - Create preview deployments for PRs
+    - Auto-deploy main branch to production
+  </Step>
+</Steps>
+
+## Netlify Deployment
+
+Netlify provides continuous deployment with powerful build plugins.
+
+<Steps>
+  <Step title="Install Netlify CLI">
+    <CodeGroup>
+    ```bash Bun
+    bun add -g netlify-cli
+    ```
+
+    ```bash npm
+    npm install -g netlify-cli
+    ```
+    </CodeGroup>
+  </Step>
+
+  <Step title="Login to Netlify">
+    ```bash
+    netlify login
+    ```
+  </Step>
+
+  <Step title="Initialize and Deploy">
+    ```bash
+    # Initialize site
+    netlify init
+
+    # Deploy
+    netlify deploy
+
+    # Production deployment
+    netlify deploy --prod
+    ```
+  </Step>
+</Steps>
+
+### Netlify Configuration
+
+Create `netlify.toml` in your project root:
+
+```toml netlify.toml
+[build]
+  command = "bun run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Redirect rules
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers for font caching
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Headers for assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+```
+
+### Netlify GitHub Integration
+
+<Steps>
+  <Step title="Connect Repository">
+    1. Go to [netlify.com](https://netlify.com)
+    2. Click "Add new site" → "Import an existing project"
+    3. Connect to GitHub and select your repository
+  </Step>
+
+  <Step title="Configure Build Settings">
+    - **Build command**: `bun run build`
+    - **Publish directory**: `dist`
+    - **Branch**: `main`
+  </Step>
+
+  <Step title="Deploy">
+    Click "Deploy site" - builds automatically on push
+  </Step>
+</Steps>
+
+## GitHub Pages Deployment
+
+Deploy to GitHub Pages for free static hosting.
+
+<Steps>
+  <Step title="Update Vite Config">
+    Set the base path to your repository name:
+
+    ```javascript vite.config.js
+    import { defineConfig } from 'vite'
+
+    export default defineConfig({
+      base: '/cursor-clone/', // Replace with your repo name
+    })
+    ```
+  </Step>
+
+  <Step title="Create GitHub Actions Workflow">
+    Create `.github/workflows/deploy.yml`:
+
+    ```yaml .github/workflows/deploy.yml
+    name: Deploy to GitHub Pages
+
+    on:
+      push:
+        branches: ['main']
+      workflow_dispatch:
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    concurrency:
+      group: 'pages'
+      cancel-in-progress: true
+
+    jobs:
+      build:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v4
+
+          - name: Setup Bun
+            uses: oven-sh/setup-bun@v1
+            with:
+              bun-version: latest
+
+          - name: Install dependencies
+            run: bun install
+
+          - name: Build
+            run: bun run build
+
+          - name: Setup Pages
+            uses: actions/configure-pages@v4
+
+          - name: Upload artifact
+            uses: actions/upload-pages-artifact@v3
+            with:
+              path: './dist'
+
+      deploy:
+        environment:
+          name: github-pages
+          url: ${{ steps.deployment.outputs.page_url }}
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+          - name: Deploy to GitHub Pages
+            id: deployment
+            uses: actions/deploy-pages@v4
+    ```
+  </Step>
+
+  <Step title="Enable GitHub Pages">
+    1. Go to repository Settings → Pages
+    2. Source: "GitHub Actions"
+    3. Save changes
+  </Step>
+
+  <Step title="Push and Deploy">
+    ```bash
+    git add .
+    git commit -m "Add GitHub Pages deployment"
+    git push origin main
+    ```
+
+    Your site will be available at: `https://username.github.io/cursor-clone/`
+  </Step>
+</Steps>
+
+### Manual GitHub Pages Deployment
+
+Alternatively, use the `gh-pages` package:
+
+```bash
+bun add -D gh-pages
+```
+
+```json package.json
+{
+  "scripts": {
+    "deploy": "bun run build && gh-pages -d dist"
+  }
+}
+```
+
+Deploy with:
+```bash
+bun run deploy
+```
+
+## Other Deployment Options
+
+<Tabs>
+  <Tab title="Cloudflare Pages">
+    <Steps>
+      <Step title="Connect Repository">
+        1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com)
+        2. Pages → Create a project → Connect to Git
+      </Step>
+
+      <Step title="Configure">
+        - **Build command**: `bun run build`
+        - **Build output directory**: `dist`
+        - **Environment variables**: None required
+      </Step>
+
+      <Step title="Deploy">
+        Cloudflare Pages will build and deploy automatically
+      </Step>
+    </Steps>
+
+    **Benefits:**
+    - Global CDN
+    - Unlimited bandwidth
+    - Automatic HTTPS
+    - DDoS protection
+  </Tab>
+
+  <Tab title="AWS S3 + CloudFront">
+    <Steps>
+      <Step title="Build Your Project">
+        ```bash
+        bun run build
+        ```
+      </Step>
+
+      <Step title="Create S3 Bucket">
+        ```bash
+        aws s3 mb s3://cursor-clone
+        aws s3 website s3://cursor-clone --index-document index.html
+        ```
+      </Step>
+
+      <Step title="Upload Files">
+        ```bash
+        aws s3 sync dist/ s3://cursor-clone --delete
+        ```
+      </Step>
+
+      <Step title="Configure CloudFront">
+        Create a CloudFront distribution pointing to your S3 bucket for:
+        - Global CDN
+        - HTTPS support
+        - Custom domain
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="DigitalOcean App Platform">
+    <Steps>
+      <Step title="Create App">
+        1. Go to [DigitalOcean Apps](https://cloud.digitalocean.com/apps)
+        2. Create → GitHub repository
+      </Step>
+
+      <Step title="Configure">
+        - **Type**: Static Site
+        - **Build Command**: `bun run build`
+        - **Output Directory**: `dist`
+      </Step>
+
+      <Step title="Deploy">
+        Click "Create Resources" to deploy
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Render">
+    <Steps>
+      <Step title="Create Static Site">
+        1. Go to [Render Dashboard](https://dashboard.render.com)
+        2. New → Static Site
+      </Step>
+
+      <Step title="Configure">
+        - **Build Command**: `bun install && bun run build`
+        - **Publish Directory**: `dist`
+      </Step>
+
+      <Step title="Deploy">
+        Render will build and deploy automatically
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Custom Domain Setup
+
+<AccordionGroup>
+  <Accordion title="Vercel Custom Domain">
+    1. Go to your project → Settings → Domains
+    2. Add your domain (e.g., `cursor-clone.com`)
+    3. Add DNS records at your registrar:
+       ```
+       Type: A
+       Name: @
+       Value: 76.76.21.21
+
+       Type: CNAME
+       Name: www
+       Value: cname.vercel-dns.com
+       ```
+    4. Vercel automatically provisions SSL certificate
+  </Accordion>
+
+  <Accordion title="Netlify Custom Domain">
+    1. Site settings → Domain management → Add custom domain
+    2. Add DNS records:
+       ```
+       Type: A
+       Name: @
+       Value: 75.2.60.5
+
+       Type: CNAME
+       Name: www
+       Value: <your-site>.netlify.app
+       ```
+    3. Netlify auto-provisions SSL via Let's Encrypt
+  </Accordion>
+
+  <Accordion title="GitHub Pages Custom Domain">
+    1. Repository Settings → Pages → Custom domain
+    2. Enter your domain
+    3. Add DNS record at registrar:
+       ```
+       Type: A
+       Name: @
+       Value: 185.199.108.153
+       Value: 185.199.109.153
+       Value: 185.199.110.153
+       Value: 185.199.111.153
+
+       Type: CNAME
+       Name: www
+       Value: username.github.io
+       ```
+    4. Enable "Enforce HTTPS"
+  </Accordion>
+</AccordionGroup>
+
+## Performance Optimization
+
+### CDN and Caching
+
+```toml netlify.toml
+# Cache static assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache HTML with revalidation
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+```
+
+### Compression
+
+Most platforms enable gzip/brotli automatically, but verify:
+
+```json vercel.json
+{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Encoding",
+          "value": "br"
+        }
+      ]
+    }
+  ]
+}
+```
+
+## Environment Variables
+
+<Tabs>
+  <Tab title="Vercel">
+    Set environment variables in the dashboard:
+
+    1. Project Settings → Environment Variables
+    2. Add variables:
+       - `VITE_API_URL`
+       - `VITE_ANALYTICS_ID`
+    3. Variables are injected at build time
+  </Tab>
+
+  <Tab title="Netlify">
+    Two ways to set variables:
+
+    **Dashboard:**
+    1. Site settings → Environment variables
+    2. Add key-value pairs
+
+    **netlify.toml:**
+    ```toml
+    [build.environment]
+      VITE_API_URL = "https://api.example.com"
+    ```
+  </Tab>
+
+  <Tab title="GitHub Actions">
+    Use repository secrets:
+
+    ```yaml
+    - name: Build
+      run: bun run build
+      env:
+        VITE_API_URL: ${{ secrets.VITE_API_URL }}
+    ```
+  </Tab>
+</Tabs>
+
+## Deployment Checklist
+
+<Steps>
+  <Step title="Pre-Deployment">
+    - [ ] Run `bun run build` locally and test with `bun run preview`
+    - [ ] Verify all assets load correctly
+    - [ ] Check console for errors
+    - [ ] Test on multiple browsers
+    - [ ] Verify responsive design
+  </Step>
+
+  <Step title="Configuration">
+    - [ ] Set correct `base` path in `vite.config.js`
+    - [ ] Configure environment variables
+    - [ ] Set up custom domain (if applicable)
+    - [ ] Configure headers and caching
+  </Step>
+
+  <Step title="Post-Deployment">
+    - [ ] Test live site thoroughly
+    - [ ] Verify HTTPS is working
+    - [ ] Check page load performance
+    - [ ] Test all links and navigation
+    - [ ] Verify fonts and images load
+  </Step>
+</Steps>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="404 Errors on Refresh">
+    For SPAs, configure redirects:
+
+    **Netlify:**
+    ```toml
+    [[redirects]]
+      from = "/*"
+      to = "/index.html"
+      status = 200
+    ```
+
+    **Vercel:**
+    ```json vercel.json
+    {
+      "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Assets Not Loading">
+    1. Check `base` path in `vite.config.js`
+    2. Use absolute paths: `/assets/` not `./assets/`
+    3. Verify `dist/` folder structure
+    4. Check browser Network tab for 404s
+  </Accordion>
+
+  <Accordion title="Build Fails on Platform">
+    1. Verify build works locally: `bun run build`
+    2. Check build command in platform settings
+    3. Ensure `dist/` is the output directory
+    4. Review build logs for specific errors
+    5. Check Node.js/Bun version compatibility
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Development Setup" icon="wrench" href="/development/setup">
+    Return to setup instructions
+  </Card>
+
+  <Card title="Build Guide" icon="hammer" href="/development/build">
+    Review build configuration
+  </Card>
+</CardGroup>

@@ -1,80 +1,211 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: 'Quickstart'
+description: 'Get the Cursor UI Clone running locally in minutes'
 ---
 
-## Get started in three steps
+## Prerequisites
 
-Get your documentation site running locally and make your first customization.
+Before you begin, make sure you have one of the following installed:
 
-### Step 1: Set up your local environment
+- [Bun](https://bun.sh) (recommended) - A fast JavaScript runtime
+- [Node.js](https://nodejs.org) (v16 or higher) with npm, pnpm, or yarn
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
+## Installation
+
+Get started with the Cursor UI Clone by following these simple steps:
+
+<Steps>
+  <Step title="Clone the repository">
+    First, clone the project to your local machine:
     
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
+    ```bash
+    git clone <your-repo-url>
+    cd cursor-clone
+    ```
+  </Step>
+
+  <Step title="Install dependencies">
+    Install the project dependencies using your preferred package manager:
     
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+    <CodeGroup>
+    ```bash Bun
+    bun install
+    ```
 
-### Step 2: Deploy your changes
+    ```bash npm
+    npm install
+    ```
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
+    ```bash pnpm
+    pnpm install
+    ```
+
+    ```bash yarn
+    yarn install
+    ```
+    </CodeGroup>
+
+    <Note>
+      **Bun is recommended** for faster installation and development. It's a modern JavaScript runtime that's significantly faster than Node.js for most operations.
+    </Note>
+  </Step>
+
+  <Step title="Start the development server">
+    Launch the development server:
     
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+    <CodeGroup>
+    ```bash Bun
+    bun run dev
+    ```
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+    ```bash npm
+    npm run dev
+    ```
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+    ```bash pnpm
+    pnpm dev
+    ```
 
-### Step 3: Go live
+    ```bash yarn
+    yarn dev
+    ```
+    </CodeGroup>
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+    The site will be available at `http://localhost:5173`
+  </Step>
 
-## Next steps
+  <Step title="Open in browser">
+    Navigate to [http://localhost:5173](http://localhost:5173) in your browser to see the Cursor UI Clone in action!
+  </Step>
+</Steps>
 
-Now that you have your docs running, explore these key features:
+## Project Structure
 
-<CardGroup cols={2}>
+The project uses a simple structure with vanilla HTML and CSS:
 
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
+```
+cursor-clone/
+├── index.html          # Main HTML file
+├── styles.css          # All styling
+├── public/             # Static assets
+│   ├── images/         # Image files
+│   ├── fonts/          # Cursor Gothic font
+│   └── fullSS.png      # Screenshot
+├── package.json        # Dependencies and scripts
+└── README.md           # Project documentation
+```
 
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
+## Available Scripts
 
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
+The project comes with these npm scripts defined in `package.json`:
 
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
+<CodeGroup>
+```json Development Server
+{
+  "scripts": {
+    "dev": "vite"
+  }
+}
+```
 
-</CardGroup>
+```json Production Build
+{
+  "scripts": {
+    "build": "vite build"
+  }
+}
+```
+
+```json Preview Production Build
+{
+  "scripts": {
+    "preview": "vite preview"
+  }
+}
+```
+</CodeGroup>
+
+### Development
+
+Run the development server with hot module replacement:
+
+```bash
+bun run dev
+```
+
+### Build for Production
+
+Create an optimized production build:
+
+```bash
+bun run build
+```
+
+The built files will be output to the `dist/` directory.
+
+### Preview Production Build
+
+Preview the production build locally:
+
+```bash
+bun run preview
+```
+
+## Tech Stack
+
+This project is intentionally simple and uses:
+
+- **HTML5** - Semantic markup
+- **CSS3** - Custom properties, Grid, Flexbox
+- **Vite** - Development server and build tool (using Rolldown)
+- **No frameworks** - Pure vanilla JavaScript (when needed)
 
 <Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
+The project uses `rolldown-vite@7.2.5` as specified in the package.json overrides for optimized performance.
 </Note>
+
+## Design System
+
+The clone faithfully reproduces Cursor's design system:
+
+**Typography:**
+- Primary font: Cursor Gothic (custom font)
+- Fallback: Inter, sans-serif
+
+**Color Palette:**
+- Background: `#14120b`
+- Text: `#edecec`, `#d7d6d5`
+- Cards: `#1b1913` to `#2b2923`
+- Accent: `#f54e00` (orange)
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Preview" icon="eye" href="/preview">
+    See what the finished project looks like
+  </Card>
+  <Card title="Customization" icon="palette" href="/customization/colors">
+    Learn how to customize the design
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+### Port already in use
+
+If port 5173 is already in use, Vite will automatically try the next available port (5174, 5175, etc.).
+
+### Dependencies not installing
+
+Make sure you're using a compatible version of Node.js (v16 or higher) or Bun. Try clearing your package manager's cache:
+
+```bash
+# npm
+npm cache clean --force
+
+# pnpm
+pnpm store prune
+
+# yarn
+yarn cache clean
+```

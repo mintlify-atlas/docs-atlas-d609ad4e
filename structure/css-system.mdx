@@ -1,0 +1,734 @@
+---
+title: 'CSS System'
+description: 'Complete guide to the CSS architecture, file organization, and styling methodology'
+---
+
+## Overview
+
+The Cursor UI Clone uses a single-file CSS architecture (`styles.css`) with a hybrid approach combining utility classes, component styles, and custom properties. The system is built on vanilla CSS with no preprocessors or frameworks.
+
+## File Structure
+
+```
+source/
+├── styles.css          # Main stylesheet (681 lines)
+├── fonts/
+│   └── Gothic.woff2    # Custom font file
+└── index.html
+```
+
+**Philosophy:**
+- Single CSS file for simplicity
+- No build process required
+- Component-based organization
+- CSS custom properties for theming
+
+## Architecture
+
+The CSS file is organized in the following order:
+
+```css
+1. Imports (Google Fonts)
+2. @font-face declarations
+3. :root CSS variables (design tokens)
+4. Reset/Base styles
+5. Utility classes
+6. Layout components
+7. Section-specific styles
+8. Interactive elements
+```
+
+## Imports & Font Loading
+
+<Tabs>
+  <Tab title="Google Fonts">
+
+```css styles.css
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+```
+
+**Configuration:** Font family Inter with weights 300, 400, 500, 600, 700 and display strategy `swap` (shows fallback font while loading).
+
+  </Tab>
+  <Tab title="Custom Font">
+
+```css styles.css
+@font-face {
+    font-family: "Gothic";
+    src: url("./fonts/Gothic.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+```
+
+**Primary Font Stack:**
+```css
+font-family: 'Gothic', 'Inter', sans-serif;
+```
+
+Gothic is the primary brand font, with Inter as fallback.
+
+  </Tab>
+</Tabs>
+
+## CSS Methodology
+
+### 1. BEM Naming Convention
+
+The project follows BEM (Block Element Modifier) for component classes:
+
+<CodeGroup>
+
+```css Block
+/* Block: standalone component */
+.nav { ... }
+.card { ... }
+.hero { ... }
+```
+
+```css Element
+/* Element: part of a block */
+.nav__left { ... }
+.nav__center { ... }
+.card__item1 { ... }
+.card__item2 { ... }
+```
+
+```css Modifier
+/* Modifier: variant of block/element */
+.btn-primary { ... }
+.btn-secondary { ... }
+.color-theme-card-01-hex { ... }
+```
+
+</CodeGroup>
+
+### 2. Utility-First Pattern
+
+Minimal set of utility classes for common layouts:
+
+```css styles.css
+.flex {
+    display: flex;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.p-20 {
+    padding: 20px;
+}
+```
+
+**Usage Example:**
+```html
+<nav class="nav flex justify-between align-center">
+  <!-- Flexbox with space-between and centered items -->
+</nav>
+```
+
+## Base Styles
+
+### Reset & Defaults
+
+```css styles.css
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-family: 'Gothic', 'Inter', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+body {
+    background-color: var(--color-theme-bg);
+    color: var(--color-theme-fg);
+}
+```
+
+**Key Features:**
+- Universal box-sizing for predictable layouts
+- Smooth scrolling for anchor links
+- Theme colors applied via CSS variables
+
+## Component Styles
+
+### Navigation Bar
+
+<Accordion title="Header & Nav Styles">
+
+```css styles.css
+header {
+    padding: 0 20px;
+    position: sticky;
+    top: 0;
+    background-color: var(--color-theme-bg);
+}
+
+.nav {
+    margin: 0 90px;
+    height: 52px;
+}
+
+.nav__left h2 {
+    font-size: 16px;
+    font-weight: 400;
+    margin-left: -1px;
+    margin-right: 40px;
+}
+
+.nav__left__logo {
+    width: 34px;
+    margin-left: -8px;
+}
+
+.nav__center a {
+    padding: 6px 15px;
+    font-size: 14px;
+    color: var(--color-theme-fg);
+    text-decoration: none;
+}
+
+.nav__center a:hover {
+    color: var(--color-soft);
+}
+```
+
+**Features:**
+- Sticky positioning keeps nav visible on scroll
+- Flexbox for three-part layout
+- Hover states with color transitions
+- Precise spacing with negative margins for optical alignment
+
+</Accordion>
+
+### Button System
+
+<Tabs>
+  <Tab title="Base Button">
+
+```css styles.css
+.nav__right .btn {
+    box-shadow: none;
+    padding: 5px 10px;
+    border-radius: 22px;
+    cursor: pointer;
+    font-size: 14px;
+}
+```
+
+Shared button styles applied to all button variants.
+
+  </Tab>
+  <Tab title="Primary Button">
+
+```css styles.css
+.btn-primary {
+    background: var(--color-theme-bg);
+    color: var(--color-theme-fg);
+    border: 1px solid var(--color-theme-card-04-hex);
+    margin-right: 4px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: var(--color-theme-card-04-hex);
+}
+```
+
+**Style:** Outlined button with subtle background on hover
+
+  </Tab>
+  <Tab title="Secondary Button">
+
+```css styles.css
+.btn-secondary {
+    background: var(--color-theme-fg);
+    color: var(--color-theme-bg);
+    margin-right: 4px;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background: var(--color-theme-fg-02);
+}
+```
+
+**Style:** Solid button with inverted colors (high contrast)
+
+  </Tab>
+</Tabs>
+
+### Card Component
+
+```css styles.css
+.card {
+    width: 100%;
+    display: flex;
+    background-color: var(--color-theme-card-01-hex);
+    padding: 20px;
+}
+
+.card:nth-child(odd) {
+    flex-direction: row;
+}
+
+.card:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.card__item1 {
+    text-align: start;
+    width: 410px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    padding: 20px;
+}
+
+.card__item2 {
+    flex: 1;
+}
+
+.card__item2__img {
+    width: 100%;
+}
+```
+
+**Design Pattern:**
+- Two-column layout with flex
+- Alternating direction for visual interest
+- Fixed width for text content (410px)
+- Flexible width for images (flex: 1)
+
+## Grid Layouts
+
+<CodeGroup>
+
+```css Trusted Companies (8-column)
+.trusted .grid {
+    margin: 10px 90px 90px 90px;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    justify-content: center;
+    gap: 10px;
+}
+```
+
+```css Testimonials (3-column)
+.testimonials__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+```
+
+```css Features (3-column)
+.features__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+```
+
+```css Changelog (4-column)
+.changelog__grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+```
+
+</CodeGroup>
+
+**Pattern:**
+- CSS Grid with `repeat()` for equal columns
+- Consistent 10px gap across all grids
+- Full-width containers
+
+## Advanced Layouts
+
+### Recent Highlights - 12-Column Grid
+
+```css styles.css
+.recent {
+    height: 665px;
+    background-color: var(--color-theme-card-hex);
+    padding: 80px 110px;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(12, 1fr);
+}
+
+.recent__item1 {
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+
+.recent__item2 {
+    grid-column-start: 4;
+    grid-column-end: 10;
+}
+```
+
+**Layout:**
+- 12-column grid system (like Bootstrap)
+- Item 1 spans columns 1-3 (3 columns)
+- Item 2 spans columns 4-9 (6 columns)
+- Creates asymmetric two-column layout
+
+## Color & Theming
+
+### Color Application
+
+<Accordion title="Background Colors">
+
+```css
+/* Primary backgrounds */
+body {
+    background-color: var(--color-theme-bg);
+}
+
+/* Card backgrounds (layered depth) */
+.trusted .grid div {
+    background-color: var(--color-theme-card-hex);
+}
+
+.card {
+    background-color: var(--color-theme-card-01-hex);
+}
+
+.recent__item2--card {
+    background-color: var(--color-theme-card-02-hex);
+}
+```
+
+**Depth System:**
+- Base: `--color-theme-bg` (#14120b)
+- Card 1: `--color-theme-card-hex` (#1b1913)
+- Card 2: `--color-theme-card-01-hex` (#1d1b15)
+- Card 3: `--color-theme-card-02-hex` (#201e18)
+
+</Accordion>
+
+<Accordion title="Text Colors">
+
+```css
+/* Primary text */
+body {
+    color: var(--color-theme-fg);
+}
+
+/* Secondary/muted text */
+.card__item1 h4 {
+    color: color-mix(in oklab, var(--color-theme-fg) 60%, transparent);
+}
+
+/* Using the soft color variable */
+.nav__center a:hover {
+    color: var(--color-soft);
+}
+```
+
+**Hierarchy:**
+- Primary: `--color-theme-fg` (white)
+- Secondary: `--color-theme-fg-02` (light gray)
+- Muted: `--color-soft` (60% opacity white)
+
+</Accordion>
+
+<Accordion title="Accent Colors">
+
+```css
+/* Primary CTA accent */
+.card__item1 a {
+    color: #f54e00;
+}
+
+.card__item1 a:hover {
+    color: #cf4200;
+}
+```
+
+**Brand Orange:**
+- Default: `#f54e00`
+- Hover: `#cf4200` (darker)
+- Used for all CTAs and interactive links
+
+</Accordion>
+
+## Advanced CSS Features
+
+### Color-Mix Function
+
+```css styles.css
+:root {
+    --color-soft: color-mix(in oklab, var(--color-theme-fg)60%, transparent);
+}
+
+.card__item1 h4 {
+    color: color-mix(in oklab, var(--color-theme-fg) 60%, transparent);
+}
+```
+
+<Note>
+**Modern CSS Feature:** `color-mix()` allows blending colors in different color spaces. The `oklab` color space provides perceptually uniform mixing, creating more natural-looking transparent colors.
+</Note>
+
+### Pseudo-Classes
+
+<CodeGroup>
+
+```css Hover States
+.nav__center a:hover {
+    color: var(--color-soft);
+}
+
+.btn-primary:hover {
+    background: var(--color-theme-card-04-hex);
+}
+
+.recent__item2--card:hover {
+    background-color: var(--color-theme-card-04-hex);
+}
+```
+
+```css Nth-Child Selectors
+.card:nth-child(odd) {
+    flex-direction: row;
+}
+
+.card:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.testimonials__grid>div>div:nth-of-type(1) {
+    flex: 1;
+}
+```
+
+</CodeGroup>
+
+## Typography System
+
+```css styles.css
+/* Headings */
+.hero h1 {
+    font-size: 26px;
+    font-weight: 400;
+}
+
+.testimonials h2 {
+    font-size: 2.25rem;  /* 36px */
+    font-weight: 400;
+}
+
+.features h3 {
+    font-size: 1.625rem;  /* 26px */
+    font-weight: 400;
+}
+
+.trusted h4 {
+    font-size: .875rem;   /* 14px */
+    font-weight: 200;
+}
+
+/* Body text */
+.nav__center a {
+    font-size: 14px;
+}
+
+.card__item1 h3 {
+    font-size: 22px;
+    font-weight: lighter;
+}
+```
+
+**Scale:**
+- Display: 72px (4.5rem) - Download CTA
+- H1: 26px - Hero
+- H2: 36px (2.25rem) - Section headers
+- H3: 26px (1.625rem) - Subsections
+- Body: 14-16px - Most content
+
+**Weight:**
+- Light (200-300) for display text
+- Normal (400) for most content
+- `font-weight: lighter` for subtle hierarchy
+
+## Spacing System
+
+<Tabs>
+  <Tab title="Margins">
+
+```css
+/* Container margins */
+.container {
+    margin: 0px 90px 60px 90px;
+}
+
+.hero {
+    margin: 115px 90px;
+}
+
+.trusted .grid {
+    margin: 10px 90px 90px 90px;
+}
+
+/* Component spacing */
+.container {
+    gap: 100px;
+}
+
+.features {
+    margin-top: 180px;
+}
+```
+
+**Pattern:** Side margins of 90px (desktop), vertical spacing 60-180px between sections, and component gaps 10-100px.
+
+  </Tab>
+  <Tab title="Padding">
+
+```css
+/* Utility class */
+.p-20 {
+    padding: 20px;
+}
+
+/* Component padding */
+.card {
+    padding: 20px;
+}
+
+.trusted .grid div {
+    padding: 28px;
+}
+
+.recent {
+    padding: 80px 110px;
+}
+```
+
+  </Tab>
+  <Tab title="Gaps">
+
+```css
+/* Grid gaps */
+.trusted .grid,
+.testimonials__grid,
+.features__grid,
+.changelog__grid {
+    gap: 10px;
+}
+
+/* Flex gaps */
+.hero__cta {
+    gap: 2px;
+}
+
+.footer__end--item1 {
+    gap: 10px;
+}
+```
+
+  </Tab>
+</Tabs>
+
+## Interactive Elements
+
+### Theme Switcher
+
+```css styles.css
+.theme-buttons {
+    display: flex;
+    gap: 10px;
+    background: #1f1f1f;
+    padding: 4px;
+    border-radius: 8px;
+}
+
+.theme-btn {
+    background: transparent;
+    border: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    color: #a0a0a0;
+}
+
+.theme-btn:hover {
+    background: #3a3a3a;
+}
+
+.theme-btn.active {
+    background: #3a3a3a;
+    color: #ffffff;
+}
+```
+
+**Features:**
+- Inline SVG icons
+- Active state styling
+- Smooth transitions
+- Accessible hover states
+
+## Performance Optimizations
+
+<Note>
+**CSS Performance Features:**
+- Single file (reduces HTTP requests)
+- No preprocessor compilation needed
+- Minimal specificity conflicts
+- Efficient selectors (mostly class-based)
+- Font display: swap (prevents FOIT)
+</Note>
+
+## Best Practices
+
+✅ **Strengths:**
+- Consistent naming with BEM
+- Reusable utility classes
+- CSS custom properties for theming
+- Modern CSS features (Grid, Flexbox, color-mix)
+- No !important declarations
+- Semantic class names
+
+<Warning>
+**Areas for Improvement:**
+- Consider responsive breakpoints (currently no media queries)
+- Add CSS comments for section organization
+- Extract more repeated values to variables
+- Consider CSS custom properties for spacing scale
+- Add print stylesheet
+</Warning>
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="HTML Architecture" icon="code" href="/structure/html-architecture">
+    Learn about the HTML structure and semantic markup
+  </Card>
+  <Card title="Design Tokens" icon="palette" href="/structure/design-tokens">
+    Complete reference of CSS variables and design tokens
+  </Card>
+</CardGroup>

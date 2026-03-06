@@ -1,0 +1,777 @@
+---
+title: General Styling Guide
+description: Complete guide to customizing the visual appearance
+---
+
+This guide covers general styling customizations beyond colors and fonts, including spacing, layouts, borders, shadows, and component-specific styles.
+
+## Design System Overview
+
+The Cursor UI Clone uses a vanilla CSS approach with:
+- **CSS Variables** for theming
+- **Utility classes** for common patterns
+- **Component-specific styles** for unique elements
+- **Consistent spacing system**
+- **Flexible grid layouts**
+
+## Utility Classes
+
+The clone includes utility classes for rapid layout development:
+
+```css
+.flex {
+    display: flex;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.p-20 {
+    padding: 20px;
+}
+```
+
+### Adding Custom Utilities
+
+Extend the utility system with your own classes:
+
+```css
+/* Spacing utilities */
+.m-10 { margin: 10px; }
+.m-20 { margin: 20px; }
+.p-10 { padding: 10px; }
+
+/* Display utilities */
+.grid { display: grid; }
+.hidden { display: none; }
+.block { display: block; }
+
+/* Text utilities */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.uppercase { text-transform: uppercase; }
+```
+
+## Spacing System
+
+The design uses consistent spacing values throughout:
+
+### Container Margins
+
+```css
+.hero {
+    margin: 115px 90px;  /* Vertical: 115px, Horizontal: 90px */
+}
+
+.container {
+    margin: 0px 90px 60px 90px;  /* Top: 0, Sides: 90px, Bottom: 60px */
+}
+
+.trusted .grid {
+    margin: 10px 90px 90px 90px;
+}
+```
+
+**Standard horizontal margin: `90px`**
+
+### Customizing Spacing
+
+Create CSS variables for consistent spacing:
+
+```css
+:root {
+    --spacing-xs: 4px;
+    --spacing-sm: 10px;
+    --spacing-md: 20px;
+    --spacing-lg: 40px;
+    --spacing-xl: 90px;
+    --spacing-2xl: 115px;
+}
+```
+
+Then apply throughout:
+
+```css
+.hero {
+    margin: var(--spacing-2xl) var(--spacing-xl);
+}
+
+.container {
+    margin: 0 var(--spacing-xl) 60px var(--spacing-xl);
+}
+```
+
+<Tip>
+Using CSS variables for spacing makes it easy to adjust the entire layout's density with a few value changes.
+</Tip>
+
+## Border Radius System
+
+The design uses subtle, consistent border radii:
+
+| Element | Radius | Purpose |
+|---------|--------|----------|
+| Cards | 4px | Subtle roundness |
+| Buttons | 22px, 30px | Pill-shaped CTAs |
+| Button List | 8px | UI components |
+| Testimonial cards | 4px | Content cards |
+| Badge/Tag | 20px | Small UI elements |
+
+### Examples in Code
+
+```css
+/* Cards - subtle corners */
+.trusted .grid div {
+    border-radius: 4px;
+}
+
+/* Primary buttons - slightly rounded */
+.nav__right .btn {
+    border-radius: 22px;
+}
+
+/* Hero CTA - fully rounded (pill) */
+.hero__cta {
+    border-radius: 30px;
+}
+
+/* UI components - medium roundness */
+.button-list {
+    border-radius: 8px;
+}
+```
+
+### Customizing Border Radius
+
+Create a border radius system:
+
+```css
+:root {
+    --radius-sm: 2px;
+    --radius-md: 4px;
+    --radius-lg: 8px;
+    --radius-xl: 16px;
+    --radius-full: 9999px;  /* Fully rounded */
+}
+
+/* Apply throughout */
+.card {
+    border-radius: var(--radius-md);
+}
+
+.btn-primary {
+    border-radius: var(--radius-full);
+}
+```
+
+## Shadows and Depth
+
+The design uses minimal shadows for subtle depth:
+
+```css
+/* Button list - subtle shadow */
+.button-list {
+    box-shadow: 0 1px 1px rgba(255, 255, 255, .5);
+}
+
+/* Controls container - darker shadow */
+.controls-container {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Buttons explicitly have no shadow */
+.nav__right .btn {
+    box-shadow: none;
+}
+```
+
+### Creating a Shadow System
+
+```css
+:root {
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.15);
+    --shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.2);
+    
+    /* Light shadows for dark themes */
+    --shadow-light: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+```
+
+Apply to interactive elements:
+
+```css
+.card:hover {
+    box-shadow: var(--shadow-lg);
+    transition: box-shadow 0.3s ease;
+}
+```
+
+<Note>
+The original design uses minimal shadows, maintaining a flat aesthetic. Add shadows sparingly to preserve the design language.
+</Note>
+
+## Button Styles
+
+The clone includes two primary button variants:
+
+### Primary Button (Outlined)
+
+```css
+.btn-primary {
+    background: var(--color-theme-bg);
+    color: var(--color-theme-fg);
+    border: 1px solid var(--color-theme-card-04-hex);
+    margin-right: 4px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: var(--color-theme-card-04-hex);
+}
+```
+
+### Secondary Button (Filled)
+
+```css
+.btn-secondary {
+    background: var(--color-theme-fg);
+    color: var(--color-theme-bg);
+    margin-right: 4px;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background: var(--color-theme-fg-02);
+}
+```
+
+### Creating Additional Button Variants
+
+```css
+/* Danger button */
+.btn-danger {
+    background: #dc2626;
+    color: #ffffff;
+    border: none;
+    border-radius: 22px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.btn-danger:hover {
+    background: #b91c1c;
+}
+
+/* Success button */
+.btn-success {
+    background: #16a34a;
+    color: #ffffff;
+    border: none;
+    border-radius: 22px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.btn-success:hover {
+    background: #15803d;
+}
+```
+
+## Grid Layouts
+
+The design uses CSS Grid extensively:
+
+### Trusted Companies Grid
+
+```css
+.trusted .grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);  /* 8 equal columns */
+    gap: 10px;
+}
+```
+
+### Testimonials Grid
+
+```css
+.testimonials__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);  /* 3 equal columns */
+    gap: 10px;
+}
+```
+
+### Features Grid
+
+```css
+.features__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);  /* 3 equal columns */
+    gap: 10px;
+}
+```
+
+### Changelog Grid
+
+```css
+.changelog__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);  /* 4 equal columns */
+    gap: 10px;
+}
+```
+
+### Recent Posts Grid (Complex)
+
+```css
+.recent {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);  /* 12-column system */
+    gap: 10px;
+}
+
+.recent__item1 {
+    grid-column-start: 1;
+    grid-column-end: 4;  /* Spans columns 1-3 */
+}
+
+.recent__item2 {
+    grid-column-start: 4;
+    grid-column-end: 10;  /* Spans columns 4-9 */
+}
+```
+
+### Customizing Grid Layouts
+
+**Change column count:**
+
+```css
+/* Make testimonials 2 columns instead of 3 */
+.testimonials__grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* Make features 4 columns */
+.features__grid {
+    grid-template-columns: repeat(4, 1fr);
+}
+```
+
+**Adjust gap spacing:**
+
+```css
+/* Larger gaps for breathing room */
+.features__grid {
+    gap: 20px;  /* Changed from 10px */
+}
+
+/* Asymmetric gaps */
+.testimonials__grid {
+    column-gap: 20px;
+    row-gap: 10px;
+}
+```
+
+<Tip>
+The 10px gap is used consistently throughout. Changing this single value can significantly impact the design's density.
+</Tip>
+
+## Card Styles
+
+### Basic Card Structure
+
+```css
+.card {
+    width: 100%;
+    display: flex;
+    background-color: var(--color-theme-card-01-hex);
+    padding: 20px;
+}
+
+/* Alternating layout direction */
+.card:nth-child(odd) {
+    flex-direction: row;
+}
+
+.card:nth-child(even) {
+    flex-direction: row-reverse;
+}
+```
+
+### Testimonial Cards
+
+```css
+.testimonials__grid > div {
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    height: 240px;
+    background-color: var(--color-theme-card-hex);
+    border-radius: 4px;
+}
+```
+
+### Feature Cards
+
+```css
+.features__grid__card {
+    height: 553px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 4px;
+    padding: 20px;
+    background-color: var(--color-theme-card-01-hex);
+}
+```
+
+### Adding Card Hover Effects
+
+```css
+/* Subtle hover effect for cards */
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Already implemented for recent cards */
+.recent__item2--card:hover {
+    background-color: var(--color-theme-card-04-hex);
+}
+```
+
+## Header and Navigation
+
+### Sticky Header
+
+```css
+header {
+    padding: 0 20px;
+    position: sticky;
+    top: 0;
+    background-color: var(--color-theme-bg);
+}
+```
+
+<Note>
+The header uses `position: sticky` with `top: 0` to remain visible while scrolling. The background color prevents content from showing through.
+</Note>
+
+### Navigation Styling
+
+```css
+.nav {
+    margin: 0 90px;
+    height: 52px;
+}
+
+.nav__center a {
+    padding: 6px 15px;
+    font-size: 14px;
+    color: var(--color-theme-fg);
+    text-decoration: none;
+}
+
+.nav__center a:hover {
+    color: var(--color-soft);
+}
+```
+
+### Customizing Navigation
+
+**Increase height:**
+
+```css
+.nav {
+    height: 64px;  /* Changed from 52px */
+}
+```
+
+**Add background blur effect:**
+
+```css
+header {
+    background-color: rgba(20, 18, 11, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+```
+
+**Add bottom border:**
+
+```css
+header {
+    border-bottom: 1px solid var(--color-theme-card-hex);
+}
+```
+
+## Transitions and Animations
+
+The design uses minimal animations for smooth interactions:
+
+### Existing Transitions
+
+```css
+/* Theme button transitions */
+.theme-btn {
+    transition: background 0.2s ease;
+}
+
+/* Language button transitions */
+.language-btn {
+    transition: background 0.2s ease;
+}
+```
+
+### Adding Smooth Transitions
+
+```css
+/* Smooth color transitions */
+.nav__center a {
+    transition: color 0.2s ease;
+}
+
+.btn-primary {
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn-primary:hover {
+    transform: scale(1.02);
+}
+
+/* Card transitions */
+.card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+```
+
+### Subtle Entrance Animations
+
+```css
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Stagger animation for grid items */
+.features__grid__card:nth-child(1) { animation-delay: 0.1s; }
+.features__grid__card:nth-child(2) { animation-delay: 0.2s; }
+.features__grid__card:nth-child(3) { animation-delay: 0.3s; }
+```
+
+<Tip>
+Keep animations subtle and performant. Use `transform` and `opacity` for best performance as they don't trigger layout recalculation.
+</Tip>
+
+## Responsive Design Considerations
+
+While the current styles don't include media queries, here's how to add responsive behavior:
+
+### Breakpoint System
+
+```css
+/* Mobile first approach */
+:root {
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+}
+```
+
+### Responsive Grid Example
+
+```css
+/* Mobile: 1 column */
+.testimonials__grid {
+    grid-template-columns: 1fr;
+}
+
+/* Tablet: 2 columns */
+@media (min-width: 768px) {
+    .testimonials__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Desktop: 3 columns */
+@media (min-width: 1024px) {
+    .testimonials__grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+```
+
+### Responsive Spacing
+
+```css
+/* Mobile */
+.hero {
+    margin: 40px 20px;
+}
+
+/* Tablet and up */
+@media (min-width: 768px) {
+    .hero {
+        margin: 80px 60px;
+    }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+    .hero {
+        margin: 115px 90px;
+    }
+}
+```
+
+## Advanced Customization
+
+### CSS Custom Properties for Theming
+
+Extend the CSS variable system for complete theme control:
+
+```css
+:root {
+    /* Colors */
+    --color-theme-bg: #14120b;
+    --color-theme-fg: #edecec;
+    
+    /* Spacing */
+    --spacing-unit: 10px;
+    --container-padding: 90px;
+    
+    /* Typography */
+    --font-primary: 'Gothic', 'Inter', sans-serif;
+    --font-ui: system-ui, sans-serif;
+    --font-size-base: 16px;
+    
+    /* Border radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 22px;
+    --radius-pill: 30px;
+    
+    /* Transitions */
+    --transition-fast: 0.1s;
+    --transition-base: 0.2s;
+    --transition-slow: 0.3s;
+}
+```
+
+### Using the Custom Properties
+
+```css
+.hero {
+    margin: 115px var(--container-padding);
+    font-family: var(--font-primary);
+}
+
+.btn-primary {
+    border-radius: var(--radius-lg);
+    transition: background var(--transition-base) ease;
+}
+
+.card {
+    border-radius: var(--radius-sm);
+}
+```
+
+### Dark/Light Theme Toggle
+
+```css
+:root {
+    --color-theme-bg: #14120b;
+    --color-theme-fg: #edecec;
+}
+
+[data-theme="light"] {
+    --color-theme-bg: #ffffff;
+    --color-theme-fg: #1a1a1a;
+    --color-theme-card-hex: #f5f5f5;
+    /* Override all color variables */
+}
+```
+
+Toggle with JavaScript:
+
+```javascript
+document.documentElement.setAttribute('data-theme', 'light');
+```
+
+## Best Practices
+
+1. **Use CSS variables** for values that repeat or might change
+2. **Maintain consistent spacing** across components
+3. **Keep animations subtle** and performance-conscious
+4. **Test hover states** for accessibility and visual feedback
+5. **Consider responsive behavior** even if not initially implemented
+6. **Comment complex CSS** for future maintainability
+7. **Group related styles** for easier navigation
+
+<Note>
+The vanilla CSS approach makes this project highly portable and easy to understand. Maintain this simplicity when adding customizations.
+</Note>
+
+## Quick Customization Checklist
+
+- [ ] Update color variables in `:root`
+- [ ] Customize font stack and weights
+- [ ] Adjust spacing system (margins, paddings, gaps)
+- [ ] Modify border radius values
+- [ ] Add or adjust shadows
+- [ ] Customize button styles
+- [ ] Update grid column counts
+- [ ] Add transitions and hover effects
+- [ ] Test across different screen sizes
+- [ ] Verify accessibility (contrast, focus states)
+
+## Where to Find Styles
+
+All styles are in a single file:
+```
+source/styles.css (681 lines)
+```
+
+**Key sections:**
+- Lines 1-24: Font imports and CSS variables
+- Lines 26-42: Global resets and base styles
+- Lines 44-58: Utility classes
+- Lines 60-103: Header and navigation
+- Lines 105-161: Buttons and hero section
+- Lines 168-317: Grids and testimonials
+- Lines 318-421: Features section
+- Lines 422-474: Changelog section
+- Lines 476-556: Join us and recent posts
+- Lines 557-681: Download, footer, and controls
+
+<Tip>
+Use your editor's "Find" feature to quickly locate specific selectors or properties for customization.
+</Tip>
